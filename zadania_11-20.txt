@@ -1,0 +1,91 @@
+ZADANIE 11 – ŁĄCZENIE KILKU TEKSTÓW
+Utwórz zmienne:
+$imie = “Adam”;
+$wiek = 18;
+Za pomocą echo oraz operatora . wyświetl:
+Mam na imię Adam i mam 18 lat
+
+ZADANIE 12 – PORÓWNANIE WYNIKU
+Utwórz zmienne:
+$a = 5;
+$b = 5;
+Oblicz ich sumę i zapisz ją w zmiennej:
+$wynik
+Za pomocą instrukcji if oraz operatora == sprawdź, czy wynik jest równy 10.
+Jeżeli tak, wyświetl:
+Wynik wynosi 10
+
+ZADANIE 13 – PROSTY FORMULARZ
+Utwórz formularz HTML.
+W formularzu utwórz pole:
+oraz przycisk:
+Wyślij
+Ustaw w formularzu:
+method=“POST”
+
+ZADANIE 14 – ODCZYT DANYCH Z FORMULARZA
+Utwórz formularz z polem:
+Po wysłaniu formularza pobierz wpisaną wartość za pomocą:
+$_POST[“imie”]
+Zapisz ją w zmiennej:
+$imie
+Następnie wyświetl zmienną za pomocą echo.
+
+ZADANIE 15 – WYŚWIETLENIE POWITANIA Z FORMULARZA
+Utwórz formularz z polem:
+Pobierz wpisane imię za pomocą:
+$_POST[“imie”]
+Zapisz je w zmiennej $imie.
+Za pomocą echo oraz operatora . wyświetl:
+Witaj Adam
+Zamiast słowa Adam ma zostać wyświetlone imię wpisane w formularzu.
+
+ZADANIE 16 – SPRAWDZENIE METODY POST
+Utwórz formularz korzystający z:
+method=“POST”
+Następnie za pomocą instrukcji:
+if ($_SERVER[“REQUEST_METHOD”] == “POST”)
+sprawdź, czy formularz został wysłany.
+Jeżeli tak, wyświetl:
+Formularz został wysłany
+
+ZADANIE 17 – POBIERANIE WARTOŚCI Z ADRESU
+Otwórz stronę za pomocą adresu:
+index.php?imie=Adam
+Pobierz wartość parametru imie za pomocą:
+$_GET[“imie”]
+Zapisz ją w zmiennej:
+$imie
+Następnie wyświetl ją za pomocą echo.
+
+ZADANIE 18 – SPRAWDZENIE PARAMETRU W ADRESIE
+Za pomocą funkcji:
+isset()
+sprawdź, czy w adresie strony istnieje parametr:
+imie
+Wykorzystaj:
+$_GET[“imie”]
+Jeżeli parametr istnieje, wyświetl:
+Parametr istnieje
+
+ZADANIE 19 – WYŚWIETLENIE PARAMETRU Z ADRESU
+Otwórz stronę:
+index.php?imie=Adam
+Za pomocą isset() sprawdź, czy parametr imie istnieje.
+Jeżeli istnieje:
+
+1. pobierz go za pomocą $_GET[“imie”],
+2. zapisz w zmiennej $imie,
+3. wyświetl za pomocą echo:
+    Witaj Adam
+
+ZADANIE 20 – PARAMETR USUN
+Otwórz stronę za pomocą adresu:
+index.php?usun=5
+Za pomocą isset() sprawdź, czy istnieje parametr:
+$_GET[“usun”]
+Jeżeli istnieje, zapisz jego wartość w zmiennej:
+$id
+Następnie za pomocą echo wyświetl:
+Numer zadania do usunięcia: 5
+Zamiast liczby 5 wykorzystaj wartość zmiennej $id.
