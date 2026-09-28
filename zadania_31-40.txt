@@ -1,0 +1,473 @@
+ZADANIE 31 – WARUNEK IF / ELSE
+
+Utwórz zmienną:
+
+$wiek = 17;
+
+Za pomocą instrukcji:
+
+if
+
+sprawdź, czy:
+
+$wiek == 18
+
+Jeżeli warunek jest spełniony, wyświetl:
+
+Masz 18 lat
+
+W przeciwnym przypadku wykorzystaj:
+
+else
+
+i wyświetl:
+
+Nie masz 18 lat
+
+
+============================================================
+
+ZADANIE 32 – LICZBA DODATNIA
+
+Utwórz zmienną:
+
+$liczba = 5;
+
+Za pomocą instrukcji if oraz operatora:
+
+>
+
+sprawdź, czy liczba jest większa od 0.
+
+Jeżeli tak, wyświetl:
+
+Liczba jest dodatnia
+
+W przeciwnym przypadku za pomocą else wyświetl:
+
+Liczba nie jest dodatnia
+
+Następnie zmień wartość zmiennej na:
+
+$liczba = -3;
+
+i sprawdź działanie programu.
+
+
+============================================================
+
+ZADANIE 33 – SPRAWDZENIE WIEKU Z FORMULARZA
+
+Utwórz formularz HTML pozwalający podać wiek.
+
+Pole powinno mieć nazwę:
+
+wiek
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Po wysłaniu formularza sprawdź, czy został on wysłany metodą POST.
+
+Następnie pobierz wartość za pomocą:
+
+$_POST["wiek"]
+
+i zapisz ją w zmiennej:
+
+$wiek
+
+Za pomocą instrukcji if sprawdź, czy:
+
+$wiek >= 18
+
+Jeżeli warunek jest spełniony, wyświetl:
+
+Jesteś pełnoletni
+
+W przeciwnym przypadku wyświetl:
+
+Nie jesteś pełnoletni
+
+
+============================================================
+
+ZADANIE 34 – PORÓWNANIE DWÓCH LICZB
+
+Utwórz formularz HTML z dwoma polami.
+
+Pierwsze pole nazwij:
+
+a
+
+Drugie pole nazwij:
+
+b
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Po wysłaniu formularza pobierz obie wartości za pomocą:
+
+$_POST["a"]
+
+oraz:
+
+$_POST["b"]
+
+Zapisz je w zmiennych:
+
+$a
+
+oraz:
+
+$b
+
+Za pomocą instrukcji if sprawdź, czy:
+
+$a > $b
+
+Jeżeli tak, wyświetl:
+
+Pierwsza liczba jest większa
+
+W przeciwnym przypadku wyświetl:
+
+Pierwsza liczba nie jest większa
+
+
+============================================================
+
+ZADANIE 35 – HASŁO
+
+Utwórz formularz HTML z jednym polem o nazwie:
+
+haslo
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Po wysłaniu formularza pobierz wartość za pomocą:
+
+$_POST["haslo"]
+
+i zapisz ją w zmiennej:
+
+$haslo
+
+Za pomocą instrukcji if sprawdź, czy:
+
+$haslo == "php"
+
+Jeżeli tak, wyświetl:
+
+Hasło poprawne
+
+W przeciwnym przypadku wyświetl:
+
+Hasło niepoprawne
+
+
+============================================================
+
+ZADANIE 36 – TRZY MOŻLIWE WYNIKI
+
+Utwórz formularz HTML pozwalający wpisać liczbę.
+
+Pole nazwij:
+
+liczba
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Pobierz wpisaną wartość za pomocą:
+
+$_POST["liczba"]
+
+i zapisz ją w zmiennej:
+
+$liczba
+
+Sprawdź:
+
+if ($liczba > 0)
+
+Jeżeli warunek jest spełniony, wyświetl:
+
+Liczba dodatnia
+
+Następnie wykorzystaj instrukcję:
+
+elseif
+
+i sprawdź:
+
+elseif ($liczba == 0)
+
+Jeżeli ten warunek jest spełniony, wyświetl:
+
+Liczba jest równa zero
+
+W pozostałych przypadkach za pomocą else wyświetl:
+
+Liczba ujemna
+
+Sprawdź program dla wartości:
+
+5
+
+0
+
+-5
+
+
+============================================================
+
+ZADANIE 37 – PROSTA OCENA
+
+Utwórz formularz HTML z polem o nazwie:
+
+punkty
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Pobierz wpisaną wartość za pomocą:
+
+$_POST["punkty"]
+
+i zapisz ją w zmiennej:
+
+$punkty
+
+Jeżeli liczba punktów jest większa lub równa 50:
+
+if ($punkty >= 50)
+
+wyświetl:
+
+Zaliczone
+
+W przeciwnym przypadku wyświetl:
+
+Niezaliczone
+
+Przetestuj program dla wartości:
+
+75
+
+50
+
+49
+
+
+============================================================
+
+ZADANIE 38 – DWA WARUNKI JEDNOCZEŚNIE
+
+Utwórz formularz HTML z dwoma polami.
+
+Pierwsze pole nazwij:
+
+login
+
+Drugie pole nazwij:
+
+haslo
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Pobierz wartości i zapisz je w zmiennych:
+
+$login
+
+oraz:
+
+$haslo
+
+Poznaj operator:
+
+&&
+
+Operator && oznacza, że oba warunki muszą być spełnione.
+
+Sprawdź:
+
+if ($login == "admin" && $haslo == "php")
+
+Jeżeli oba warunki są spełnione, wyświetl:
+
+Zalogowano
+
+W przeciwnym przypadku wyświetl:
+
+Błędny login lub hasło
+
+
+============================================================
+
+ZADANIE 39 – PROSTY KALKULATOR
+
+Utwórz formularz HTML zawierający trzy pola.
+
+Pierwsze pole:
+
+a
+
+Drugie pole:
+
+b
+
+Trzecie pole:
+
+dzialanie
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Użytkownik powinien wpisać w polu dzialanie:
+
++
+
+lub:
+
+-
+
+Pobierz wszystkie wartości i zapisz je w zmiennych:
+
+$a
+
+$b
+
+$dzialanie
+
+Jeżeli:
+
+$dzialanie == "+"
+
+dodaj liczby i zapisz wynik w zmiennej:
+
+$wynik
+
+Następnie wyświetl wynik za pomocą echo.
+
+Jeżeli:
+
+$dzialanie == "-"
+
+odejmij drugą liczbę od pierwszej.
+
+Do sprawdzenia drugiego warunku wykorzystaj:
+
+elseif
+
+Przykład:
+
+a: 10
+b: 4
+dzialanie: +
+
+Program powinien wyświetlić:
+
+Wynik: 14
+
+
+============================================================
+
+ZADANIE 40 – PODSUMOWANIE
+
+Utwórz formularz HTML zawierający trzy pola.
+
+Pierwsze pole:
+
+imie
+
+Drugie pole:
+
+wiek
+
+Trzecie pole:
+
+punkty
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Dodaj przycisk wysyłający formularz.
+
+Po wysłaniu formularza sprawdź za pomocą:
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+
+czy formularz został wysłany.
+
+Następnie pobierz wartości:
+
+$_POST["imie"]
+
+$_POST["wiek"]
+
+$_POST["punkty"]
+
+Zapisz je odpowiednio w zmiennych:
+
+$imie
+
+$wiek
+
+$punkty
+
+Za pomocą echo oraz operatora . wyświetl na przykład:
+
+Adam ma 18 lat i zdobył 75 punktów
+
+Nie wpisuj imienia, wieku ani liczby punktów na stałe.
+Wykorzystaj zmienne.
+
+Następnie sprawdź, czy użytkownik jest pełnoletni:
+
+if ($wiek >= 18)
+
+Jeżeli tak, wyświetl:
+
+Osoba pełnoletnia
+
+W przeciwnym przypadku wyświetl:
+
+Osoba niepełnoletnia
+
+Następnie sprawdź liczbę punktów.
+
+Jeżeli:
+
+$punkty >= 50
+
+wyświetl:
+
+Wynik zaliczony
+
+W przeciwnym przypadku wyświetl:
+
+Wynik niezaliczony
+
+Przykład:
+
+imie: Adam
+wiek: 18
+punkty: 75
+
+Program powinien wyświetlić:
+
+Adam ma 18 lat i zdobył 75 punktów
+Osoba pełnoletnia
+Wynik zaliczony
