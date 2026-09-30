@@ -10,6 +10,10 @@ Po prostu:
 - i nie będziemy tego teraz sprawdzać
 
 Kod:       ██████████ 100%
+
 Dokumentacja: ██░░░░░░░░ 20%
+
 Testy:     ░░░░░░░░░░ 0%
+
 Wiara w projekt: ██████████ 100%
+
