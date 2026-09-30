@@ -6,8 +6,8 @@ Po prostu:
 
 - działa na moim komputerze 💻
 - nie działa na twoim komputerze 🗿
-- nie wiadomo dlaczego
-- i nie będziemy tego teraz sprawdzać
+- nie wiadomo dlaczego 🐨
+- i nie będziemy tego teraz sprawdzać 😎
 
 Kod:       ██████████ 100%
 
