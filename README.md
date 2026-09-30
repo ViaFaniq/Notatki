@@ -1,7 +1,15 @@
-# elo
+## Co robi ten projekt?
 
-to jest moje repo
+Nic specjalnego.
 
-nie wiem co tu robisz
+Po prostu:
 
-ale kur nie ruszaj bo **kici kici**
+- działa na moim komputerze 💻
+- nie działa na twoim komputerze 🗿
+- nie wiadomo dlaczego
+- i nie będziemy tego teraz sprawdzać
+
+Kod:       ██████████ 100%
+Dokumentacja: ██░░░░░░░░ 20%
+Testy:     ░░░░░░░░░░ 0%
+Wiara w projekt: ██████████ 100%
