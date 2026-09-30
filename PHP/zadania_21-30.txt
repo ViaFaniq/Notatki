@@ -1,0 +1,323 @@
+ZADANIE 21 – DODAWANIE DWÓCH LICZB Z FORMULARZA
+Utwórz formularz HTML, który pozwoli użytkownikowi wpisać dwie liczby.
+Formularz powinien korzystać z metody:
+method=“POST”
+Utwórz w nim dwa pola tekstowe.
+Pierwsze pole powinno mieć nazwę:
+a
+Drugie pole powinno mieć nazwę:
+b
+Pamiętaj, że nazwę pola formularza określamy za pomocą:
+name=”…”
+Dodaj również przycisk wysyłający formularz.
+Po wysłaniu formularza sprawdź za pomocą:
+if ($_SERVER[“REQUEST_METHOD”] == “POST”)
+czy formularz został wysłany.
+Następnie pobierz wartości z obu pól za pomocą:
+$_POST[“a”]
+oraz:
+$_POST[“b”]
+Zapisz pobrane wartości w zmiennych:
+$a
+oraz:
+$b
+Dodaj obie liczby i zapisz wynik w zmiennej:
+$wynik
+Na końcu za pomocą echo wyświetl obliczony wynik.
+
+Przykład:
+Jeżeli użytkownik wpisze:
+5
+oraz:
+3
+na stronie powinno pojawić się:
+Wynik: 8
+
+============================================================
+
+ZADANIE 22 – OBLICZANIE CENY Z FORMULARZA
+Utwórz formularz HTML pozwalający podać cenę jednego produktu oraz liczbę kupowanych sztuk.
+Formularz powinien korzystać z:
+method=“POST”
+Utwórz dwa pola.
+Pierwsze pole powinno mieć nazwę:
+cena
+Drugie pole powinno mieć nazwę:
+ilosc
+Dodaj przycisk wysyłający formularz.
+Po wysłaniu formularza pobierz wartości za pomocą:
+$_POST[“cena”]
+oraz:
+$_POST[“ilosc”]
+Zapisz je w zmiennych:
+$cena
+oraz:
+$ilosc
+Następnie pomnóż cenę przez liczbę sztuk.
+Wynik działania zapisz w zmiennej:
+$cenaRazem
+Za pomocą echo oraz operatora . wyświetl tekst:
+Do zapłaty: 200 zł
+Liczba 200 nie powinna być wpisana na stałe.
+W jej miejscu wykorzystaj zmienną:
+$cenaRazem
+
+Przykład:
+Jeżeli użytkownik poda cenę:
+50
+oraz ilość:
+4
+program powinien wyświetlić:
+Do zapłaty: 200 zł
+
+============================================================
+
+ZADANIE 23 – IMIĘ I WIEK Z FORMULARZA
+Utwórz formularz HTML, w którym użytkownik będzie mógł wpisać swoje imię oraz wiek.
+Formularz powinien korzystać z:
+method=“POST”
+Utwórz dwa pola o nazwach:
+imie
+oraz:
+wiek
+Dodaj przycisk:
+Wyślij
+Po wysłaniu formularza sprawdź, czy został on wysłany metodą POST.
+Następnie pobierz imię za pomocą:
+$_POST[“imie”]
+i zapisz je w zmiennej:
+$imie
+Pobierz wiek za pomocą:
+$_POST[“wiek”]
+i zapisz go w zmiennej:
+$wiek
+Za pomocą echo oraz operatora . połącz tekst ze zmiennymi.
+Program powinien wyświetlić na przykład:
+Adam ma 18 lat
+Słowa Adam oraz liczby 18 nie wpisuj na stałe.
+Wykorzystaj wartości zmiennych:
+$imie
+oraz:
+$wiek
+
+============================================================
+
+ZADANIE 24 – SPRAWDZENIE LICZBY Z FORMULARZA
+Utwórz formularz HTML z jednym polem, do którego użytkownik będzie mógł wpisać liczbę.
+Pole powinno mieć nazwę:
+liczba
+Formularz powinien korzystać z:
+method=“POST”
+Dodaj przycisk wysyłający formularz.
+Po wysłaniu formularza pobierz wpisaną wartość za pomocą:
+$_POST[“liczba”]
+Zapisz ją w zmiennej:
+$liczba
+Następnie wykorzystaj instrukcję:
+if
+oraz operator porównania:
+==
+Sprawdź, czy wartość zmiennej $liczba jest równa:
+10
+Jeżeli warunek jest spełniony, za pomocą echo wyświetl:
+Liczba wynosi 10
+
+Przykład:
+Użytkownik wpisuje:
+10
+Program wyświetla:
+Liczba wynosi 10
+
+============================================================
+
+ZADANIE 25 – SPRAWDZENIE WIEKU PODANEGO W FORMULARZU
+Utwórz formularz HTML pozwalający użytkownikowi podać swój wiek.
+Pole formularza powinno mieć nazwę:
+wiek
+Formularz powinien korzystać z metody:
+POST
+Po wysłaniu formularza pobierz wpisaną wartość za pomocą:
+$_POST[“wiek”]
+Zapisz ją w zmiennej:
+$wiek
+Następnie za pomocą instrukcji if sprawdź, czy:
+$wiek == 18
+Pamiętaj:
+= oznacza przypisanie wartości,
+natomiast:
+== oznacza porównanie wartości.
+Jeżeli użytkownik poda wiek równy 18, wyświetl za pomocą echo:
+Masz 18 lat
+Jeżeli użytkownik poda inną wartość, program nie musi nic wyświetlać.
+
+============================================================
+
+ZADANIE 26 – DODAWANIE I SPRAWDZENIE WYNIKU
+Utwórz formularz HTML z dwoma polami.
+Pierwsze pole nazwij:
+a
+Drugie pole nazwij:
+b
+Formularz powinien korzystać z:
+method=“POST”
+Po wysłaniu formularza pobierz obie wartości.
+Zapisz je w zmiennych:
+$a
+oraz:
+$b
+Następnie dodaj obie liczby.
+Wynik zapisz w zmiennej:
+$wynik
+Wyświetl obliczony wynik za pomocą echo.
+Następnie wykorzystaj instrukcję:
+if
+Sprawdź, czy:
+$wynik == 10
+Jeżeli wynik jest równy 10, wyświetl dodatkowo:
+Wynik wynosi 10
+Przykład:
+Użytkownik wpisuje:
+4
+oraz:
+6
+Program oblicza:
+4 + 6 = 10
+i wyświetla komunikat:
+Wynik wynosi 10
+
+============================================================
+
+ZADANIE 27 – LICZBA PRZEKAZANA W ADRESIE STRONY
+Tym razem nie korzystaj z formularza.
+Otwórz stronę za pomocą adresu:
+index.php?liczba=10
+W adresie znajduje się parametr:
+liczba
+o wartości:
+10
+Za pomocą funkcji:
+isset()
+sprawdź, czy parametr liczba istnieje.
+Wykorzystaj:
+isset($_GET[“liczba”])
+Jeżeli parametr istnieje, pobierz jego wartość za pomocą:
+$_GET[“liczba”]
+i zapisz ją w zmiennej:
+$liczba
+Następnie za pomocą instrukcji if sprawdź, czy:
+$liczba == 10
+Jeżeli warunek jest spełniony, wyświetl:
+Liczba wynosi 10
+Następnie zmień adres na przykład na:
+index.php?liczba=5
+i sprawdź, co zrobi program.
+
+============================================================
+
+ZADANIE 28 – NUMER ZADANIA DO USUNIĘCIA
+Otwórz stronę za pomocą adresu:
+index.php?usun=5
+Parametr:
+usun
+zawiera tutaj wartość:
+5
+Za pomocą funkcji:
+isset()
+sprawdź, czy parametr usun istnieje.
+Wykorzystaj:
+isset($_GET[“usun”])
+Jeżeli parametr istnieje, pobierz jego wartość za pomocą:
+$_GET[“usun”]
+Pobraną wartość zapisz w zmiennej:
+$id
+Następnie za pomocą echo oraz operatora . wyświetl:
+Wybrano zadanie numer 5 do usunięcia
+Liczby 5 nie wpisuj bezpośrednio w echo.
+Wykorzystaj zmienną:
+$id
+Następnie zmień adres na:
+index.php?usun=8
+Program powinien wtedy wyświetlić:
+Wybrano zadanie numer 8 do usunięcia
+
+============================================================
+
+ZADANIE 29 – TWORZENIE LINKU USUŃ
+Utwórz zmienną:
+$id = 5;
+Następnie utwórz link HTML o treści:
+Usuń
+Link powinien prowadzić do adresu:
+index.php?usun=5
+Do wyświetlenia linku wykorzystaj:
+echo
+Nie wpisuj jednak liczby 5 bezpośrednio do adresu.
+Połącz tekst:
+index.php?usun=
+z wartością zmiennej:
+$id
+Do łączenia tekstu ze zmienną wykorzystaj operator:
+.
+Pamiętaj, że kropka w PHP służy do łączenia tekstów.
+Po kliknięciu linku:
+Usuń
+przeglądarka powinna otworzyć adres:
+index.php?usun=5
+Następnie zmień:
+$id = 5;
+na:
+$id = 10;
+i sprawdź, czy link prowadzi teraz do:
+index.php?usun=10
+
+============================================================
+
+ZADANIE 30 – IMIĘ, DWIE LICZBY I WYNIK
+Utwórz formularz HTML, który będzie zawierał trzy pola.
+Pierwsze pole:
+imie
+Drugie pole:
+a
+Trzecie pole:
+b
+Formularz powinien korzystać z:
+method=“POST”
+Dodaj przycisk:
+Oblicz
+Po wysłaniu formularza sprawdź za pomocą:
+if ($_SERVER[“REQUEST_METHOD”] == “POST”)
+czy formularz został wysłany.
+Następnie pobierz wartości:
+$_POST[“imie”]
+$_POST[“a”]
+$_POST[“b”]
+Zapisz je odpowiednio w zmiennych:
+$imie
+$a
+$b
+Dodaj wartości zmiennych:
+$a
+oraz:
+$b
+Wynik zapisz w zmiennej:
+$wynik
+Następnie za pomocą echo oraz operatora . wyświetl:
+Adam, wynik to 10
+Nie wpisuj imienia ani wyniku na stałe.
+Wykorzystaj zmienne:
+$imie
+oraz:
+$wynik
+Na końcu za pomocą instrukcji if sprawdź, czy:
+$wynik == 10
+Jeżeli tak, wyświetl dodatkowo:
+Wynik jest równy 10
+
+Przykład:
+Użytkownik wpisuje:
+imie: Adam
+a: 4
+b: 6
+Program powinien wyświetlić:
+Adam, wynik to 10
+Wynik jest równy 10

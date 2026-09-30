@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select id="kolor">
+        <option value="red">Czerwony</option>
+        <option value="blue">Niebieski</option>
+        <option value="green">Zielony</option>
+        <option value="#F9A800">Ral 1003</option>
+    </select>
+    <button onclick="zmien_kolor()">Zmień Kolor</button>
+
+    <button onclick="losowe_imie()">Losuj imie</button>
+    <p id="imie"></p>
+    <script>
+        function zmien_kolor(){
+            let color = document.getElementById("kolor").value
+            console.log(color)
+            document.body.style.backgroundColor = color
+        }
+
+        function losowe_imie() {
+            let imienia = ["Kasia", "Daniel", "Jakub", "Tokarka", "Ursus", "Jabko", "Fiat"];
+            let losowa_liczba = Math.floor(Math.random() * imienia.length);
+            let imie1 = imienia[losowa_liczba]
+
+            console.log(losowa_liczba, imie1)
+            document.getElementById("imie").innerHTML = "Witaj " + imie1
+
+        }
+    </script>
+</body>
+</html> 

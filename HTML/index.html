@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="imie">
+    <button onclick="imienie()">Wpisz</button>
+    <p id="pokaz-imie"></p>
+    <script>
+        function imienie() {
+            let wpisane_imie = document.getElementById("imie").value
+            document.getElementById("pokaz-imie").innerHTML = "Witaj " + wpisane_imie
+            console.log("Witaj " + wpisane_imie)
+        }
+    </script>
+</body>
+</html>
