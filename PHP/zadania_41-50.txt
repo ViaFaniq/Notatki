@@ -1,0 +1,735 @@
+ZADANIE 41 – PIERWSZE URUCHOMIENIE PHPMYADMIN
+
+Do tej pory dane w naszych programach przechowywaliśmy głównie w zmiennych.
+
+Na przykład:
+
+$imie = “Adam”;
+$wiek = 18;
+
+Po zakończeniu działania programu takie dane nie są zapisane na stałe.
+
+Do przechowywania większej ilości danych możemy wykorzystać bazę danych.
+
+W kolejnych zadaniach będziemy korzystać z:
+
+MySQL
+
+Do wygodnej obsługi bazy danych wykorzystamy:
+
+phpMyAdmin
+
+phpMyAdmin pozwala między innymi:
+
+* tworzyć bazy danych,
+* tworzyć tabele,
+* dodawać dane,
+* przeglądać dane,
+* zmieniać dane,
+* usuwać dane.
+
+Uruchom phpMyAdmin.
+
+Na razie niczego nie twórz.
+
+Obejrzyj główne okno programu.
+
+Zwróć uwagę na listę baz danych znajdującą się po lewej stronie.
+
+Zapamiętaj:
+
+BAZA DANYCH
+może zawierać różne tabele.
+
+TABELA
+przechowuje dane.
+
+KOLUMNA
+określa rodzaj przechowywanych danych.
+
+WIERSZ
+to jeden zapisany rekord.
+
+Przykładowa tabela uczniowie może wyglądać tak:
+
+id | imie | nazwisko | wiek
+1  | Adam | Kowalski | 18
+2  | Anna | Nowak    | 17
+
+Tutaj:
+
+id, imie, nazwisko, wiek
+
+to kolumny.
+
+Natomiast:
+
+1 | Adam | Kowalski | 18
+
+to jeden rekord.
+
+============================================================
+
+ZADANIE 42 – TWORZENIE PIERWSZEJ BAZY DANYCH
+
+Uruchom phpMyAdmin.
+
+Znajdź możliwość utworzenia nowej bazy danych.
+
+Utwórz bazę o nazwie:
+
+szkola
+
+Po utworzeniu bazy powinna pojawić się ona na liście baz danych.
+
+Kliknij bazę:
+
+szkola
+
+Na razie nie twórz tabeli.
+
+Sprawdź tylko, czy baza została poprawnie utworzona.
+
+Zapamiętaj:
+
+szkola
+
+to nazwa naszej bazy danych.
+
+// DODATKOWO:
+//
+// To samo można wykonać za pomocą polecenia SQL:
+//
+// CREATE DATABASE szkola;
+//
+// CREATE DATABASE oznacza:
+// utwórz bazę danych.
+//
+// szkola to nazwa tworzonej bazy.
+//
+// Na razie nie wpisuj tego polecenia.
+// Bazę utwórz za pomocą phpMyAdmin.
+
+============================================================
+
+ZADANIE 43 – TWORZENIE PIERWSZEJ TABELI
+
+Otwórz w phpMyAdmin bazę:
+
+szkola
+
+Utwórz w niej nową tabelę o nazwie:
+
+uczniowie
+
+Tabela powinna posiadać cztery kolumny.
+
+Utwórz kolumny:
+
+id
+imie
+nazwisko
+wiek
+
+Ustaw:
+
+id – INT
+imie – VARCHAR(50)
+nazwisko – VARCHAR(50)
+wiek – INT
+
+Dla pola:
+
+id
+
+ustaw klucz główny:
+
+PRIMARY
+
+oraz włącz:
+
+AUTO_INCREMENT
+
+Zapisz tabelę.
+
+Po zapisaniu sprawdź jej strukturę.
+
+Powinny być widoczne cztery pola:
+
+id
+imie
+nazwisko
+wiek
+
+CO OZNACZAJĄ TE USTAWIENIA?
+
+INT
+
+oznacza liczbę całkowitą.
+
+Dlatego wykorzystujemy go dla:
+
+id
+wiek
+
+VARCHAR(50)
+
+pozwala przechowywać tekst o długości maksymalnie 50 znaków.
+
+Dlatego wykorzystujemy go dla:
+
+imie
+nazwisko
+
+AUTO_INCREMENT
+
+powoduje automatyczne nadawanie kolejnych numerów:
+
+1
+2
+3
+4
+…
+
+Dzięki temu nie będziemy ręcznie wpisywać numeru id.
+
+// DODATKOWO:
+//
+// To, co przed chwilą utworzyliśmy za pomocą phpMyAdmin,
+// można również utworzyć poleceniem SQL:
+//
+// CREATE TABLE uczniowie (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     imie VARCHAR(50),
+//     nazwisko VARCHAR(50),
+//     wiek INT
+// );
+//
+// CREATE TABLE oznacza:
+// utwórz tabelę.
+//
+// uczniowie to nazwa tabeli.
+//
+// Na razie nie wpisuj tego polecenia.
+// Tabelę utwórz za pomocą phpMyAdmin.
+
+============================================================
+
+ZADANIE 44 – DODAWANIE PIERWSZYCH DANYCH
+
+Otwórz tabelę:
+
+uczniowie
+
+W phpMyAdmin znajdź możliwość dodania nowego rekordu.
+
+Dodaj ucznia:
+
+imie:
+Adam
+
+nazwisko:
+Kowalski
+
+wiek:
+18
+
+Pola:
+
+id
+
+nie uzupełniaj.
+
+Zapisz rekord.
+
+Następnie przejdź do przeglądania zawartości tabeli.
+
+Powinien pojawić się rekord podobny do:
+
+1 | Adam | Kowalski | 18
+
+Zwróć uwagę, że numer:
+
+1
+
+został utworzony automatycznie.
+
+Dodaj jeszcze dwóch uczniów:
+
+Anna | Nowak | 17
+
+Piotr | Wiśniewski | 19
+
+Po dodaniu danych tabela powinna zawierać trzy rekordy.
+
+// DODATKOWO:
+//
+// Dodawanie danych można również wykonać
+// za pomocą polecenia SQL:
+//
+// INSERT INTO uczniowie (imie, nazwisko, wiek)
+// VALUES (‘Adam’, ‘Kowalski’, 18);
+//
+// INSERT INTO oznacza:
+// dodaj nowy rekord.
+//
+// uczniowie to nazwa tabeli.
+//
+// W nawiasie podajemy kolumny:
+//
+// imie, nazwisko, wiek
+//
+// VALUES oznacza wartości,
+// które chcemy w nich zapisać.
+//
+// Nie podajemy id,
+// ponieważ jest nadawane automatycznie.
+
+============================================================
+
+ZADANIE 45 – PRZEGLĄDANIE I ZMIANA DANYCH W PHPMYADMIN
+
+Otwórz tabelę:
+
+uczniowie
+
+Wyświetl zapisane w niej rekordy.
+
+Odszukaj ucznia:
+
+Adam Kowalski
+
+Zmień jego wiek:
+
+18
+
+na:
+
+19
+
+Zapisz zmianę.
+
+Sprawdź, czy w tabeli pojawiła się nowa wartość.
+
+Następnie dodaj jeszcze jedną osobę:
+
+Karol | Zieliński | 20
+
+Sprawdź, jaki numer id otrzymała.
+
+Na koniec usuń rekord Karola.
+
+Po wykonaniu zadania w tabeli ponownie powinno pozostać trzech uczniów.
+
+// DODATKOWO:
+//
+// Zmianę danych można wykonać poleceniem:
+//
+// UPDATE uczniowie SET wiek=19 WHERE id=1;
+//
+// UPDATE oznacza:
+// zmień dane.
+//
+// SET wiek=19 oznacza:
+// ustaw wiek na 19.
+//
+// WHERE id=1 oznacza:
+// zmień rekord o id równym 1.
+//
+//
+// Usuwanie można wykonać poleceniem:
+//
+// DELETE FROM uczniowie WHERE id=4;
+//
+// DELETE oznacza:
+// usuń.
+//
+// WHERE określa,
+// który rekord ma zostać usunięty.
+//
+// Na razie wykonuj te operacje za pomocą phpMyAdmin.
+
+============================================================
+
+ZADANIE 46 – PIERWSZE POŁĄCZENIE PHP Z BAZĄ
+
+Do tej pory bazę danych obsługiwaliśmy bezpośrednio w phpMyAdmin.
+
+Teraz spróbujemy połączyć z nią program napisany w PHP.
+
+Utwórz plik:
+
+index.php
+
+Utwórz zmienną:
+
+$polaczenie
+
+i zapisz:
+
+$polaczenie = mysqli_connect(“localhost”, “root”, “”, “szkola”);
+
+Następnie sprawdź:
+
+if ($polaczenie)
+
+Jeżeli połączenie działa, wyświetl:
+
+Połączono z bazą danych
+
+W przeciwnym przypadku za pomocą:
+
+else
+
+wyświetl:
+
+Błąd połączenia
+
+WYJAŚNIENIE:
+
+mysqli_connect()
+
+służy do połączenia PHP z bazą danych.
+
+localhost
+
+oznacza serwer znajdujący się na naszym komputerze.
+
+root
+
+to nazwa użytkownika.
+
+“”
+
+w tym przypadku oznacza puste hasło.
+
+szkola
+
+to nazwa bazy, z którą chcemy się połączyć.
+
+Na tym etapie program ma tylko połączyć się z bazą.
+
+Nie pobieraj jeszcze żadnych danych.
+
+============================================================
+
+ZADANIE 47 – PIERWSZE POBRANIE DANYCH Z BAZY
+
+Wykorzystaj połączenie z poprzedniego zadania:
+
+$polaczenie = mysqli_connect(“localhost”, “root”, “”, “szkola”);
+
+Utwórz zmienną:
+
+$sql
+
+i zapisz:
+
+$sql = “SELECT * FROM uczniowie”;
+
+Następnie wykonaj zapytanie:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+Pobierz jeden rekord:
+
+$wiersz = mysqli_fetch_assoc($wynik);
+
+Wyświetl:
+
+$wiersz[“imie”];
+
+Uruchom stronę.
+
+Powinno zostać wyświetlone imię pierwszego ucznia.
+
+Następnie zamiast samego imienia wyświetl:
+
+imie
+nazwisko
+
+Wykorzystaj echo oraz operator:
+
+.
+
+Na stronie powinno pojawić się na przykład:
+
+Adam Kowalski
+
+// SQL:
+//
+// SELECT * FROM uczniowie;
+//
+// SELECT oznacza:
+// pobierz dane.
+//
+// * oznacza:
+// wszystkie kolumny.
+//
+// FROM oznacza:
+// z tabeli.
+//
+// uczniowie
+// to nazwa naszej tabeli.
+//
+// Czyli:
+//
+// SELECT * FROM uczniowie
+//
+// oznacza:
+//
+// pobierz wszystkie dane
+// z tabeli uczniowie.
+//
+//
+// mysqli_query()
+// wysyła zapytanie do bazy.
+//
+// mysqli_fetch_assoc()
+// pobiera jeden rekord z otrzymanych danych.
+
+============================================================
+
+ZADANIE 48 – WYŚWIETLENIE WSZYSTKICH UCZNIÓW
+
+W poprzednim zadaniu pobraliśmy tylko jeden rekord.
+
+Teraz wyświetlimy wszystkie rekordy.
+
+Wykonaj:
+
+$sql = “SELECT * FROM uczniowie”;
+
+Następnie:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+Wykorzystaj pętlę:
+
+while
+
+Przykład:
+
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+
+echo $wiersz["imie"];
+echo "<br>";
+
+}
+
+Uruchom stronę.
+
+Powinny pojawić się imiona wszystkich uczniów.
+
+Następnie zmień program tak, aby wyświetlał:
+
+imie
+nazwisko
+wiek
+
+Przykład:
+
+Adam Kowalski 19
+Anna Nowak 17
+Piotr Wiśniewski 19
+
+// SQL nadal jest bardzo prosty:
+//
+// SELECT * FROM uczniowie;
+//
+// Pobieramy wszystkie dane z tabeli.
+//
+// Różnica znajduje się po stronie PHP.
+//
+// mysqli_fetch_assoc()
+// pobiera jeden rekord.
+//
+// while powoduje,
+// że pobieramy kolejne rekordy,
+// aż nie będzie już żadnego.
+
+============================================================
+
+ZADANIE 49 – DODAWANIE DANYCH Z PHP
+
+Połącz się z bazą:
+
+szkola
+
+Utwórz zmienną:
+
+$sql
+
+i zapisz:
+
+$sql = “INSERT INTO uczniowie (imie, nazwisko, wiek)
+VALUES (‘Tomasz’, ‘Kowalski’, 18)”;
+
+Następnie wykonaj:
+
+mysqli_query($polaczenie, $sql);
+
+Uruchom stronę jeden raz.
+
+Przejdź do phpMyAdmin.
+
+Otwórz tabelę:
+
+uczniowie
+
+Sprawdź, czy pojawił się:
+
+Tomasz Kowalski
+
+Zwróć uwagę na jego:
+
+id
+
+// SQL:
+//
+// INSERT INTO
+// oznacza dodanie nowego rekordu.
+//
+// uczniowie
+// to tabela, do której dodajemy dane.
+//
+// (imie, nazwisko, wiek)
+//
+// określa kolumny,
+// które chcemy uzupełnić.
+//
+// VALUES
+// określa wartości,
+// które mają zostać zapisane.
+//
+//
+// Czyli:
+//
+// INSERT INTO uczniowie (imie, nazwisko, wiek)
+// VALUES (‘Tomasz’, ‘Kowalski’, 18);
+//
+// oznacza:
+//
+// dodaj do tabeli uczniowie
+// nowego ucznia:
+//
+// Tomasz Kowalski, 18 lat.
+//
+//
+// UWAGA:
+//
+// Każde odświeżenie strony
+// ponownie wykona INSERT.
+//
+// Dlatego na razie uruchom stronę tylko raz.
+
+============================================================
+
+ZADANIE 50 – DODAWANIE UCZNIA Z FORMULARZA
+
+W tym zadaniu połączymy dwie rzeczy:
+
+formularz HTML, który już znasz,
+
+oraz:
+
+bazę danych.
+
+Utwórz formularz korzystający z:
+
+method=“POST”
+
+Dodaj trzy pola:
+
+imie
+nazwisko
+wiek
+
+Dodaj przycisk:
+
+Dodaj
+
+Po wysłaniu formularza sprawdź:
+
+if ($_SERVER[“REQUEST_METHOD”] == “POST”)
+
+Pobierz:
+
+$_POST[“imie”]
+$_POST[“nazwisko”]
+$_POST[“wiek”]
+
+Zapisz dane w zmiennych:
+
+$imie
+$nazwisko
+$wiek
+
+Następnie utwórz:
+
+$sql = “INSERT INTO uczniowie (imie, nazwisko, wiek)
+VALUES (’$imie’, ‘$nazwisko’, ‘$wiek’)”;
+
+Wykonaj:
+
+mysqli_query($polaczenie, $sql);
+
+Po wykonaniu zapytania wyświetl:
+
+Dodano ucznia
+
+W formularzu wpisz na przykład:
+
+Marek
+Nowak
+18
+
+Kliknij:
+
+Dodaj
+
+Następnie otwórz phpMyAdmin.
+
+Sprawdź, czy Marek został zapisany w tabeli:
+
+uczniowie
+
+// SQL:
+//
+// INSERT INTO uczniowie (imie, nazwisko, wiek)
+// VALUES (’$imie’, ‘$nazwisko’, ‘$wiek’);
+//
+// Tym razem wartości nie są wpisane na stałe.
+//
+// $imie
+// $nazwisko
+// $wiek
+//
+// zawierają dane wpisane wcześniej
+// przez użytkownika w formularzu.
+//
+// Możemy więc przedstawić działanie programu:
+//
+// FORMULARZ
+//
+//       ↓
+//
+// $_POST
+//
+//       ↓
+//
+// $imie
+// $nazwisko
+// $wiek
+//
+//       ↓
+//
+// INSERT INTO
+//
+//       ↓
+//
+// TABELA uczniowie
+//
+//
+// Właśnie połączyliśmy formularz PHP
+// z bazą danych MySQL.
