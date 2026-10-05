@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        <p>Imie:</p>
+        <input type="text" name="imie">
+        <p>Nazwisko:</p>
+        <input type="text" name="nazwisko">
+        <p>Wiek:</p>
+        <input type="number" name="wiek">
+        <button>Dodaj</button>
+    </form>
+</body>
+</html>
+
+<?php
+
+$polaczenie = mysqli_connect("127.0.0.1", "root", "", "szkola", 3306);
+$sql = "SELECT * FROM uczniowie";
+$wynik = mysqli_query($polaczenie, $sql);
+
+#dodawanie ucznia
+#$sql1 = "INSERT INTO uczniowie (imie, nazwisko, wiek)
+#         VALUES ('Tomasz', 'Kowalski', 18)";
+#$sql1wynik = mysqli_query($polaczenie, $sql1);
+
+#$wiersz = mysqli_fetch_assoc($wynik);
+#sprawdzenie czy $polaczdnie nie działa i wypisanie error
+if (!$polaczenie) {
+    die("Błąd połączenia: " . mysqli_connect_error());
+}
+
+# wyswietlenie ze baza działa
+# echo "Połączono z bazą danych ";
+# echo $wiersz["imie"] . " " . $wiersz["nazwisko"]; 
+# wyswietlenie imie i nazwiko 
+
+while ($wiersz = mysqli_fetch_assoc($wynik)) {
+    echo $wiersz["imie"] . " " . $wiersz["nazwisko"] . " " . $wiersz["wiek"];
+    echo " <br> ";
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $imie = $_POST["imie"];
+    $nazwisko = $_POST["nazwisko"];
+    $wiek = $_POST["wiek"];
+
+    $sql2 = "INSERT INTO uczniowie (imie, nazwisko, wiek)
+             VALUES ('$imie', '$nazwisko', '$wiek')";
+    $wyniksql2 = mysqli_query($polaczenie, $sql2);
+}
+
+?>
