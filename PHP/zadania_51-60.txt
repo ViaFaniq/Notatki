@@ -1,0 +1,1003 @@
+ZADANIE 51 – DODAWANIE I WYŚWIETLANIE UCZNIÓW
+
+W poprzednich zadaniach nauczyliśmy się:
+
+- dodawać ucznia do bazy danych,
+- pobierać dane z bazy,
+- wyświetlać wszystkie rekordy.
+
+Teraz połączymy te czynności w jednym programie.
+
+Korzystaj z bazy:
+
+szkola
+
+oraz tabeli:
+
+uczniowie
+
+
+Utwórz formularz zawierający trzy pola:
+
+imie
+nazwisko
+wiek
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+Dodaj przycisk:
+
+Dodaj ucznia
+
+
+Po wysłaniu formularza sprawdź:
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+
+Następnie pobierz dane:
+
+$_POST["imie"]
+$_POST["nazwisko"]
+$_POST["wiek"]
+
+i zapisz je w zmiennych:
+
+$imie
+$nazwisko
+$wiek
+
+
+Utwórz zapytanie:
+
+$sql = "INSERT INTO uczniowie (imie, nazwisko, wiek)
+VALUES ('$imie', '$nazwisko', '$wiek')";
+
+Wykonaj zapytanie za pomocą:
+
+mysqli_query($polaczenie, $sql);
+
+
+Następnie pobierz wszystkich uczniów:
+
+$sql = "SELECT * FROM uczniowie";
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Za pomocą pętli:
+
+while
+
+wyświetl:
+
+imie
+nazwisko
+wiek
+
+każdego ucznia.
+
+
+Przykład:
+
+Adam Kowalski - 19 lat
+Anna Nowak - 17 lat
+Piotr Wiśniewski - 19 lat
+
+
+CO ĆWICZYMY?
+
+W tym zadaniu nie poznajemy nowego rodzaju zapytania SQL.
+
+Łączymy rzeczy poznane wcześniej:
+
+FORMULARZ
+     ↓
+$_POST
+     ↓
+INSERT INTO
+     ↓
+BAZA DANYCH
+
+oraz:
+
+BAZA DANYCH
+     ↓
+SELECT
+     ↓
+mysqli_query()
+     ↓
+while
+     ↓
+echo
+
+
+============================================================
+
+
+ZADANIE 52 – LICZENIE UCZNIÓW
+
+Pobierz wszystkich uczniów z tabeli:
+
+uczniowie
+
+Wykorzystaj:
+
+$sql = "SELECT * FROM uczniowie";
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Teraz poznamy nową funkcję:
+
+mysqli_num_rows()
+
+
+Utwórz zmienną:
+
+$liczba
+
+i zapisz:
+
+$liczba = mysqli_num_rows($wynik);
+
+
+Wyświetl:
+
+Liczba uczniów w bazie: 4
+
+Nie wpisuj liczby na stałe.
+
+Wykorzystaj zmienną:
+
+$liczba
+
+
+NOWY ELEMENT:
+
+mysqli_num_rows()
+
+pozwala policzyć, ile rekordów otrzymaliśmy
+z bazy danych.
+
+
+Jeżeli tabela zawiera:
+
+Adam
+Anna
+Piotr
+Marek
+
+to:
+
+mysqli_num_rows($wynik)
+
+zwróci:
+
+4
+
+
+Zapamiętaj:
+
+ROW
+
+oznacza wiersz.
+
+Jeden wiersz tabeli to jeden rekord.
+
+
+============================================================
+
+
+ZADANIE 53 – WYSZUKIWANIE UCZNIA PO ID
+
+Każdy uczeń zapisany w tabeli:
+
+uczniowie
+
+posiada własny numer:
+
+id
+
+
+Utwórz formularz z jednym polem:
+
+id
+
+oraz przyciskiem:
+
+Szukaj
+
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+
+Po wysłaniu formularza pobierz:
+
+$_POST["id"]
+
+i zapisz w zmiennej:
+
+$id
+
+
+Następnie utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE id=$id";
+
+
+Wykonaj zapytanie:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Pobierz rekord:
+
+$wiersz = mysqli_fetch_assoc($wynik);
+
+
+Wyświetl:
+
+$wiersz["imie"]
+$wiersz["nazwisko"]
+$wiersz["wiek"]
+
+
+Przykład:
+
+Użytkownik wpisuje:
+
+2
+
+Program może wyświetlić:
+
+Anna Nowak - 17 lat
+
+
+NOWY ELEMENT:
+
+WHERE
+
+oznacza:
+
+gdzie
+
+
+Polecenie:
+
+SELECT * FROM uczniowie WHERE id=2
+
+możemy przeczytać jako:
+
+pobierz wszystkie kolumny
+z tabeli uczniowie
+dla rekordu,
+gdzie id jest równe 2.
+
+
+Bez:
+
+WHERE
+
+pobieraliśmy wszystkich uczniów.
+
+
+Dzięki:
+
+WHERE
+
+możemy wybrać konkretnego ucznia.
+
+
+============================================================
+
+
+ZADANIE 54 – WYSZUKIWANIE UCZNIA PO IMIENIU
+
+W poprzednim zadaniu wyszukiwaliśmy ucznia
+za pomocą jego numeru id.
+
+Teraz wyszukamy ucznia po imieniu.
+
+
+Utwórz formularz z polem:
+
+imie
+
+oraz przyciskiem:
+
+Szukaj
+
+
+Po wysłaniu formularza pobierz:
+
+$_POST["imie"]
+
+i zapisz w zmiennej:
+
+$imie
+
+
+Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE imie='$imie'";
+
+
+Zwróć uwagę:
+
+przy liczbie pisaliśmy:
+
+WHERE id=$id
+
+
+Przy tekście zapisujemy:
+
+WHERE imie='$imie'
+
+
+Tekst w zapytaniu SQL umieszczamy
+w apostrofach.
+
+
+Wykonaj zapytanie:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Za pomocą pętli:
+
+while
+
+wyświetl znalezionych uczniów.
+
+
+Dlaczego używamy while?
+
+W bazie może znajdować się więcej niż jedna osoba
+o tym samym imieniu.
+
+
+Na przykład:
+
+Anna Nowak
+Anna Kowalska
+
+
+Zapytanie:
+
+SELECT * FROM uczniowie WHERE imie='Anna'
+
+może więc zwrócić kilka rekordów.
+
+
+============================================================
+
+
+ZADANIE 55 – TYLKO PEŁNOLETNI UCZNIOWIE
+
+Wcześniej w PHP sprawdzaliśmy wiek
+za pomocą instrukcji:
+
+if
+
+
+Teraz podobny warunek zastosujemy
+bezpośrednio w zapytaniu do bazy danych.
+
+
+Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE wiek >= 18";
+
+
+Wykonaj je:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Za pomocą pętli:
+
+while
+
+wyświetl:
+
+imie
+nazwisko
+wiek
+
+wszystkich znalezionych uczniów.
+
+
+NOWY ELEMENT:
+
+WHERE wiek >= 18
+
+
+oznacza:
+
+wybierz tylko rekordy,
+w których wiek jest większy
+lub równy 18.
+
+
+Jeżeli w tabeli znajdują się:
+
+Adam - 19
+Anna - 17
+Piotr - 19
+Marek - 18
+
+program powinien wyświetlić:
+
+Adam - 19
+Piotr - 19
+Marek - 18
+
+
+Anna nie zostanie pobrana,
+ponieważ ma mniej niż 18 lat.
+
+
+============================================================
+
+
+ZADANIE 56 – SORTOWANIE UCZNIÓW
+
+Do tej pory rekordy wyświetlaliśmy
+w kolejności otrzymanej z bazy.
+
+Teraz posortujemy uczniów według nazwiska.
+
+
+Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie ORDER BY nazwisko";
+
+
+Wykonaj zapytanie:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+Za pomocą:
+
+while
+
+wyświetl wszystkich uczniów.
+
+
+NOWY ELEMENT:
+
+ORDER BY
+
+oznacza:
+
+uporządkuj według
+
+
+Polecenie:
+
+ORDER BY nazwisko
+
+oznacza:
+
+uporządkuj wyniki według kolumny nazwisko.
+
+
+Przykład:
+
+Jeżeli w bazie znajdują się:
+
+Piotr Wiśniewski
+Adam Kowalski
+Anna Nowak
+
+wynik powinien być uporządkowany:
+
+Adam Kowalski
+Anna Nowak
+Piotr Wiśniewski
+
+
+Domyślnie dane są sortowane rosnąco,
+czyli w przypadku tekstu:
+
+od A do Z.
+
+
+============================================================
+
+
+ZADANIE 57 – USUWANIE UCZNIA PO ID
+
+W poprzednich ćwiczeniach korzystaliśmy już
+z parametru:
+
+?usun=5
+
+Wtedy tylko odczytywaliśmy numer z adresu.
+
+Teraz wykorzystamy go do usunięcia rekordu
+z bazy danych.
+
+
+Na początek wpisz w adresie strony:
+
+index.php?usun=2
+
+
+Sprawdź, czy parametr istnieje:
+
+if (isset($_GET["usun"]))
+
+
+Pobierz jego wartość:
+
+$id = $_GET["usun"];
+
+
+Następnie utwórz zapytanie:
+
+$sql = "DELETE FROM uczniowie WHERE id=$id";
+
+
+Wykonaj:
+
+mysqli_query($polaczenie, $sql);
+
+
+Po wykonaniu zapytania wyświetl:
+
+Usunięto ucznia
+
+
+NOWY ELEMENT:
+
+DELETE FROM
+
+oznacza:
+
+usuń z tabeli
+
+
+Zapytanie:
+
+DELETE FROM uczniowie WHERE id=2
+
+oznacza:
+
+usuń z tabeli uczniowie
+rekord,
+którego id wynosi 2.
+
+
+UWAGA:
+
+WHERE jest tutaj bardzo ważne.
+
+To właśnie:
+
+WHERE id=2
+
+określa, który rekord zostanie usunięty.
+
+
+Na tym etapie zawsze używaj DELETE
+razem z WHERE.
+
+
+Po wykonaniu zadania otwórz phpMyAdmin
+i sprawdź, czy rekord rzeczywiście został usunięty.
+
+
+============================================================
+
+
+ZADANIE 58 – LINK USUŃ PRZY KAŻDYM UCZNIU
+
+W poprzednim zadaniu wpisywaliśmy ręcznie:
+
+index.php?usun=2
+
+
+Teraz program sam utworzy taki link
+przy każdym uczniu.
+
+
+Pobierz wszystkich uczniów:
+
+$sql = "SELECT * FROM uczniowie";
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+
+W pętli:
+
+while
+
+wyświetl:
+
+imie
+nazwisko
+wiek
+
+
+Dodatkowo przy każdym uczniu
+wyświetl link:
+
+Usuń
+
+
+Numer id pobierz z:
+
+$wiersz["id"]
+
+
+Link powinien prowadzić do:
+
+index.php?usun=NUMER
+
+
+Na przykład dla ucznia o id równym 3:
+
+index.php?usun=3
+
+
+Możesz wykorzystać:
+
+echo '<a href="index.php?usun=' . $wiersz["id"] . '">Usuń</a>';
+
+
+Przykładowy wynik:
+
+Adam Kowalski - 19 lat - Usuń
+Anna Nowak - 17 lat - Usuń
+Piotr Wiśniewski - 19 lat - Usuń
+
+
+Każdy link:
+
+Usuń
+
+powinien zawierać inne id.
+
+
+Po kliknięciu linku wykorzystaj kod
+z poprzedniego zadania:
+
+if (isset($_GET["usun"]))
+
+aby pobrać id i usunąć odpowiedni rekord.
+
+
+CO SIĘ TUTAJ DZIEJE?
+
+Najpierw:
+
+SELECT
+
+pobiera uczniów.
+
+
+Następnie:
+
+while
+
+wyświetla kolejnych uczniów.
+
+
+Każdy uczeń posiada własne:
+
+id
+
+
+To id umieszczamy w adresie linku:
+
+?usun=...
+
+
+Po kliknięciu:
+
+$_GET["usun"]
+
+pozwala odczytać numer ucznia.
+
+
+============================================================
+
+
+ZADANIE 59 – ZMIANA WIEKU UCZNIA
+
+Do tej pory:
+
+INSERT INTO
+
+dodawał dane,
+
+SELECT
+
+pobierał dane,
+
+DELETE
+
+usuwał dane.
+
+
+Teraz zmienimy istniejące dane.
+
+
+Utwórz formularz zawierający dwa pola:
+
+id
+wiek
+
+
+Dodaj przycisk:
+
+Zmień wiek
+
+
+Formularz powinien korzystać z:
+
+method="POST"
+
+
+Po wysłaniu formularza pobierz:
+
+$_POST["id"]
+$_POST["wiek"]
+
+
+Zapisz wartości w zmiennych:
+
+$id
+$wiek
+
+
+Utwórz zapytanie:
+
+$sql = "UPDATE uczniowie SET wiek=$wiek WHERE id=$id";
+
+
+Wykonaj:
+
+mysqli_query($polaczenie, $sql);
+
+
+Wyświetl:
+
+Zmieniono wiek ucznia
+
+
+NOWY ELEMENT:
+
+UPDATE
+
+oznacza:
+
+zmień istniejące dane.
+
+
+SET
+
+oznacza:
+
+ustaw wartość.
+
+
+Zapytanie:
+
+UPDATE uczniowie SET wiek=20 WHERE id=2
+
+oznacza:
+
+w tabeli uczniowie
+ustaw wiek na 20
+dla ucznia,
+którego id wynosi 2.
+
+
+Możemy przedstawić to tak:
+
+UPDATE uczniowie
+      ↓
+wybieramy tabelę
+
+SET wiek=20
+      ↓
+ustalamy nową wartość
+
+WHERE id=2
+      ↓
+określamy, który rekord zmieniamy
+
+
+Po wykonaniu zadania otwórz phpMyAdmin
+i sprawdź, czy wiek został zmieniony.
+
+
+============================================================
+
+
+ZADANIE 60 – PROSTA LISTA UCZNIÓW
+
+W tym zadaniu wykorzystamy kilka rzeczy,
+które poznaliśmy wcześniej.
+
+Nie poznajemy nowego polecenia SQL.
+
+Łączymy poznane elementy w jeden program.
+
+
+Program powinien:
+
+1. Połączyć się z bazą:
+
+szkola
+
+
+2. Wyświetlić formularz zawierający:
+
+imie
+nazwisko
+wiek
+
+
+3. Po kliknięciu:
+
+Dodaj ucznia
+
+zapisać ucznia w tabeli:
+
+uczniowie
+
+
+Wykorzystaj:
+
+INSERT INTO
+
+
+4. Następnie pobrać wszystkich uczniów.
+
+Wykorzystaj:
+
+SELECT * FROM uczniowie
+
+
+5. Wyświetlić uczniów za pomocą:
+
+while
+
+
+Przy każdym uczniu wyświetl:
+
+id
+imie
+nazwisko
+wiek
+
+
+Na przykład:
+
+1 - Adam Kowalski - 19 lat
+2 - Anna Nowak - 17 lat
+3 - Piotr Wiśniewski - 19 lat
+
+
+6. Przy każdym uczniu dodaj link:
+
+Usuń
+
+
+Link powinien przekazywać:
+
+id
+
+za pomocą adresu:
+
+?usun=...
+
+
+Na przykład:
+
+index.php?usun=3
+
+
+7. Jeżeli w adresie znajduje się:
+
+usun
+
+pobierz jego wartość:
+
+$_GET["usun"]
+
+
+Następnie usuń odpowiedniego ucznia:
+
+DELETE FROM uczniowie WHERE id=$id
+
+
+Program powinien więc pozwalać na:
+
+DODAWANIE UCZNIA
+
+oraz:
+
+WYŚWIETLANIE UCZNIÓW
+
+oraz:
+
+USUWANIE UCZNIA
+
+
+SCHEMAT DZIAŁANIA:
+
+FORMULARZ
+     ↓
+$_POST
+     ↓
+INSERT INTO
+     ↓
+BAZA DANYCH
+
+
+BAZA DANYCH
+     ↓
+SELECT
+     ↓
+while
+     ↓
+LISTA UCZNIÓW
+
+
+LINK USUŃ
+     ↓
+$_GET["usun"]
+     ↓
+$id
+     ↓
+DELETE FROM
+     ↓
+USUNIĘCIE REKORDU
+
+
+W tym zadaniu wykorzystujesz poznane wcześniej:
+
+mysqli_connect()
+
+$_POST
+
+$_GET
+
+isset()
+
+if
+
+while
+
+echo
+
+mysqli_query()
+
+mysqli_fetch_assoc()
+
+SELECT
+
+INSERT INTO
+
+DELETE FROM
+
+WHERE
+
+
+Jeżeli czegoś nie pamiętasz,
+wróć do wcześniejszych zadań
+i odszukaj przykład użycia danego elementu.
+
+Nie musisz pisać wszystkiego z pamięci.
+
+Celem zadania jest połączenie poznanych elementów
+w jeden działający program.
