@@ -11,7 +11,7 @@ Po prostu:
 
 Kod:       ██████████ 100%
 
-Dokumentacja: ██░░░░░░░░ 20%
+Dokumentacja: ░░░░░░░░░░ 20%
 
 Testy:     ░░░░░░░░░░ 0%
 
