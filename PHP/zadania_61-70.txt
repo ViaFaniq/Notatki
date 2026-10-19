@@ -1,0 +1,287 @@
+ZADANIA 61–70 – PHP + MySQL
+Kontynuacja ćwiczeń z bazą szkola i tabelą uczniowie.
+Pracuj w pliku index.php. W każdym zadaniu wykorzystaj poznane wcześniej połączenie:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+
+============================================================
+
+ZADANIE 61 – SORTOWANIE UCZNIÓW OD Z DO A
+
+W zadaniu 56 sortowaliśmy uczniów według nazwiska od A do Z.
+Teraz zmienimy kolejność.
+
+1. Połącz się z bazą szkola.
+2. Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie ORDER BY nazwisko DESC";
+
+3. Wykonaj zapytanie za pomocą mysqli_query().
+4. Za pomocą pętli while wyświetl imię i nazwisko każdego ucznia.
+5. Sprawdź, czy nazwiska pojawiają się od Z do A.
+
+NOWY ELEMENT:
+DESC oznacza sortowanie malejące.
+Dla porównania:
+ORDER BY nazwisko ASC – od A do Z.
+ORDER BY nazwisko DESC – od Z do A.
+
+============================================================
+
+ZADANIE 62 – SORTOWANIE WEDŁUG WIEKU
+
+Teraz posortujemy uczniów według wieku.
+
+1. Połącz się z bazą szkola.
+2. Wykonaj zapytanie:
+
+$sql = "SELECT * FROM uczniowie ORDER BY wiek ASC";
+
+3. Wyświetl imię, nazwisko i wiek każdego ucznia.
+4. Sprawdź, czy najmłodsi uczniowie znajdują się na początku.
+5. Zmień ASC na DESC i ponownie uruchom stronę.
+
+CO ĆWICZYMY?
+ASC – kolejność rosnąca.
+DESC – kolejność malejąca.
+Możemy sortować zarówno tekst, jak i liczby.
+
+============================================================
+
+ZADANIE 63 – WYŚWIETLENIE TYLKO TRZECH UCZNIÓW
+
+Do tej pory pobieraliśmy wszystkich uczniów.
+Teraz ograniczymy liczbę wyników.
+
+1. Połącz się z bazą szkola.
+2. Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie LIMIT 3";
+
+3. Wykonaj je za pomocą mysqli_query().
+4. W pętli while wyświetl imię i nazwisko ucznia.
+5. Zmień LIMIT 3 na LIMIT 2 i sprawdź wynik.
+
+NOWY ELEMENT:
+LIMIT 3 oznacza: pobierz maksymalnie trzy rekordy.
+Jeśli w tabeli są tylko dwa rekordy, program wyświetli dwa.
+Kolejność rekordów bez ORDER BY nie jest gwarantowana.
+
+============================================================
+
+ZADANIE 64 – TRZECH NAJSTARSZYCH UCZNIÓW
+
+Połączymy poznane wcześniej ORDER BY i LIMIT.
+
+1. Połącz się z bazą szkola.
+2. Wykonaj zapytanie:
+
+$sql = "SELECT * FROM uczniowie ORDER BY wiek DESC LIMIT 3";
+
+3. Wyświetl imię, nazwisko i wiek każdego znalezionego ucznia.
+4. Sprawdź, czy na liście są trzy osoby o najwyższym wieku.
+5. Zmień DESC na ASC. Kogo teraz pokazuje program?
+
+CO ĆWICZYMY?
+ORDER BY wiek DESC – najpierw najstarsi.
+LIMIT 3 – najwyżej trzy rekordy.
+Obie części mogą wystąpić w jednym zapytaniu.
+
+============================================================
+
+ZADANIE 65 – UCZNIOWIE MŁODSI NIŻ 18 LAT
+
+W zadaniu 55 wybieraliśmy uczniów pełnoletnich.
+Teraz wyszukamy młodszych.
+
+1. Połącz się z bazą szkola.
+2. Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE wiek < 18";
+
+3. Wykonaj je za pomocą mysqli_query().
+4. W pętli while wyświetl imię, nazwisko i wiek.
+5. Sprawdź, czy nie pojawia się żaden uczeń w wieku 18 lat lub starszy.
+
+PRZYPOMNIENIE:
+< oznacza „mniejsze niż”.
+>= oznacza „większe lub równe”.
+WHERE wybiera tylko rekordy spełniające warunek.
+
+============================================================
+
+ZADANIE 66 – WYSZUKIWANIE UCZNIÓW W PODANYM WIEKU
+
+Wcześniej wpisywaliśmy wiek bezpośrednio do zapytania SQL.
+Teraz użytkownik poda go w formularzu.
+
+1. Utwórz formularz HTML z polem o nazwie wiek.
+2. Ustaw method="POST".
+3. Dodaj przycisk „Szukaj”.
+4. Po wysłaniu formularza sprawdź:
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+
+5. Pobierz wartość:
+
+$wiek = (int) $_POST["wiek"];
+
+6. Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE wiek=$wiek";
+
+7. Wykonaj zapytanie za pomocą mysqli_query().
+8. W pętli while wyświetl imiona i nazwiska znalezionych uczniów.
+
+NOWY ELEMENT:
+(int) zamienia podaną wartość na liczbę całkowitą.
+To ważne, ponieważ dane z formularza przychodzą jako tekst.
+W tym zadaniu szukamy dokładnie podanego wieku.
+
+============================================================
+
+ZADANIE 67 – INFORMACJA O BRAKU WYNIKÓW
+
+Czasami wyszukiwanie nie znajdzie żadnego ucznia.
+Program powinien o tym poinformować.
+
+1. Wykorzystaj formularz i zapytanie z zadania 66.
+2. Po wykonaniu zapytania sprawdź liczbę rekordów:
+
+$liczba = mysqli_num_rows($wynik);
+
+3. Za pomocą if sprawdź:
+
+if ($liczba == 0)
+
+4. Jeżeli nie ma wyników, wyświetl:
+
+Nie znaleziono uczniów
+
+5. W przeciwnym przypadku użyj else.
+6. W części else wyświetl znalezionych uczniów za pomocą while.
+7. Przetestuj program dla wieku, którego nie ma w tabeli.
+
+PRZYPOMNIENIE:
+mysqli_num_rows() liczy otrzymane rekordy.
+0 oznacza, że zapytanie nie znalazło żadnego wiersza.
+
+============================================================
+
+ZADANIE 68 – ZMIANA NAZWISKA UCZNIA
+
+W zadaniu 59 zmienialiśmy wiek ucznia.
+Teraz zmienimy jego nazwisko.
+
+1. Utwórz formularz HTML z dwoma polami:
+   id
+   nazwisko
+2. Ustaw method="POST".
+3. Dodaj przycisk „Zmień nazwisko”.
+4. Po wysłaniu formularza pobierz:
+
+$id = (int) $_POST["id"];
+$nazwisko = $_POST["nazwisko"];
+
+5. Utwórz zapytanie:
+
+$sql = "UPDATE uczniowie SET nazwisko='$nazwisko' WHERE id=$id";
+
+6. Wykonaj zapytanie za pomocą mysqli_query().
+7. Wyświetl komunikat „Wykonano zapytanie”.
+8. Otwórz phpMyAdmin i sprawdź, czy nazwisko zostało zmienione.
+
+PRZYPOMNIENIE:
+UPDATE – zmień istniejące dane.
+SET – ustaw nową wartość.
+WHERE id=... – wybierz konkretny rekord.
+
+UWAGA:
+To uproszczony przykład szkolny. W prawdziwej aplikacji wartości
+tekstowe z formularza przekazujemy przez zapytania przygotowane,
+aby uniknąć błędów i SQL injection. Nauczymy się tego później.
+
+============================================================
+
+ZADANIE 69 – LICZENIE UCZNIÓW PEŁNOLETNICH
+
+Połączymy WHERE z mysqli_num_rows().
+
+1. Połącz się z bazą szkola.
+2. Utwórz zapytanie:
+
+$sql = "SELECT * FROM uczniowie WHERE wiek >= 18";
+
+3. Wykonaj je:
+
+$wynik = mysqli_query($polaczenie, $sql);
+
+4. Policz otrzymane rekordy:
+
+$liczba = mysqli_num_rows($wynik);
+
+5. Za pomocą echo wyświetl:
+
+Liczba uczniów pełnoletnich: ...
+
+6. Zamiast kropek wyświetl wartość zmiennej $liczba.
+7. Sprawdź wynik w phpMyAdmin.
+
+CO ĆWICZYMY?
+WHERE wybiera rekordy spełniające warunek.
+mysqli_num_rows() liczy tylko otrzymane rekordy.
+
+============================================================
+
+ZADANIE 70 – LISTA UCZNIÓW Z WYSZUKIWANIEM I SORTOWANIEM
+
+To zadanie podsumowujące. Wykorzystamy elementy z poprzednich ćwiczeń.
+
+Program powinien:
+
+1. Połączyć się z bazą szkola.
+2. Wyświetlić formularz z polem wiek i przyciskiem „Szukaj”.
+3. Po wysłaniu formularza pobrać wiek z $_POST.
+4. Wyszukać uczniów w podanym wieku:
+
+$sql = "SELECT * FROM uczniowie WHERE wiek=$wiek ORDER BY nazwisko ASC";
+
+Pamiętaj: wcześniej zamień wartość z formularza na liczbę całkowitą.
+
+5. Wykonać zapytanie przez mysqli_query().
+6. Sprawdzić liczbę wyników przez mysqli_num_rows().
+7. Jeżeli wyników nie ma, wyświetlić:
+
+Nie znaleziono uczniów
+
+8. Jeżeli wyniki istnieją, wyświetlić za pomocą while:
+   id
+   imie
+   nazwisko
+   wiek
+9. Uporządkować listę według nazwiska od A do Z.
+10. Sprawdzić działanie dla co najmniej dwóch różnych wartości wieku.
+
+SCHEMAT DZIAŁANIA:
+
+FORMULARZ
+    ↓
+$_POST["wiek"]
+    ↓
+$wiek
+    ↓
+SELECT ... WHERE ... ORDER BY
+    ↓
+mysqli_query()
+    ↓
+mysqli_num_rows()
+    ↓
+if / else
+    ↓
+while
+    ↓
+LISTA UCZNIÓW
+
+W tym zadaniu nie poznajemy nowego polecenia SQL.
+Celem jest połączenie poznanych elementów w jeden działający program.
+Jeśli czegoś nie pamiętasz, wróć do wcześniejszych zadań.
+Nie musisz pisać wszystkiego z pamięci.
