@@ -1,0 +1,224 @@
+ZADANIA 71–80 – PHP + MySQL
+Kontynuacja zadań 1–70. Pracuj w pliku index.php, z bazą szkola i tabelą uczniowie (id, imie, nazwisko, wiek).
+W każdym zadaniu wymagającym bazy wykorzystaj znane połączenie:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+Zadania wykonuj kolejno. Testuj na kilku rekordach w tabeli.
+
+============================================================
+
+ZADANIE 71 – LICZBA UCZNIÓW W JEDNYM ZAPYTANIU
+
+W zadaniu 69 liczyliśmy rekordy za pomocą mysqli_num_rows(). Teraz liczenie wykona SQL.
+
+1. Połącz się z bazą szkola.
+2. Utwórz zapytanie:
+   $sql = "SELECT COUNT(*) AS liczba FROM uczniowie";
+3. Wykonaj je za pomocą mysqli_query().
+4. Pobierz wynik przez mysqli_fetch_assoc().
+5. Wyświetl: Liczba uczniów: ... (wartość z pola liczba).
+6. Porównaj rezultat z liczbą rekordów w phpMyAdmin.
+
+NOWY ELEMENT:
+COUNT(*) liczy wiersze. AS liczba nadaje nazwę otrzymanej wartości.
+RÓŻNICA: mysqli_num_rows() liczy wiersze wyniku zapytania, a COUNT(*) zwraca liczbę obliczoną przez bazę.
+
+============================================================
+
+ZADANIE 72 – ILE JEST UCZNIÓW PEŁNOLETNICH?
+
+Wykorzystaj COUNT(*) razem ze znanym WHERE.
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT COUNT(*) AS liczba FROM uczniowie WHERE wiek >= 18";
+3. Pobierz jeden wiersz wyniku.
+4. Wyświetl: Uczniów pełnoletnich: ...
+5. Zmień warunek na wiek < 18 i wyświetl liczbę niepełnoletnich.
+6. Sprawdź obie liczby, przeglądając tabelę w phpMyAdmin.
+
+CO ĆWICZYMY?
+Łączymy poznane WHERE z nową funkcją COUNT(*).
+
+============================================================
+
+ZADANIE 73 – NAJMŁODSZY I NAJSTARSZY WIEK
+
+Zamiast dwóch osobnych programów wykonaj dwa obliczenia w jednym zapytaniu.
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT MIN(wiek) AS najmniejszy, MAX(wiek) AS najwiekszy FROM uczniowie";
+3. Pobierz wynik za pomocą mysqli_fetch_assoc().
+4. Wyświetl dwa komunikaty:
+   Najmłodszy wiek: ...
+   Najstarszy wiek: ...
+5. Sprawdź wyniki w phpMyAdmin.
+
+NOWE ELEMENTY:
+MIN() zwraca najmniejszą wartość, MAX() największą.
+To wiek, a nie dane konkretnego ucznia.
+
+============================================================
+
+ZADANIE 74 – ŚREDNI WIEK UCZNIÓW
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT AVG(wiek) AS srednia FROM uczniowie";
+3. Pobierz wynik za pomocą mysqli_fetch_assoc().
+4. Wyświetl: Średni wiek uczniów: ...
+5. Dodaj w phpMyAdmin nowego ucznia z innym wiekiem i sprawdź zmianę średniej.
+6. Sprawdź, czy średnia musi być liczbą całkowitą.
+
+NOWY ELEMENT:
+AVG() oblicza średnią wartości liczbowych.
+Jeśli tabela jest pusta, średnia może nie mieć wartości — sprawdź program na tabeli zawierającej uczniów.
+
+============================================================
+
+ZADANIE 75 – WYSZUKIWANIE IMION NA LITERĘ A
+
+W zadaniu 54 szukaliśmy dokładnego imienia. Teraz wyszukamy imiona zaczynające się od określonej litery.
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE imie LIKE 'A%' ORDER BY nazwisko ASC";
+3. Za pomocą while wyświetl imię i nazwisko każdego znalezionego ucznia.
+4. Sprawdź wynik.
+5. Zmień A na P i uruchom program ponownie.
+6. Jeśli nie ma wyników, dodaj odpowiedni rekord w phpMyAdmin.
+
+NOWY ELEMENT:
+LIKE wyszukuje według wzorca. A% oznacza tekst zaczynający się od A.
+Powtarzamy ORDER BY i while.
+
+============================================================
+
+ZADANIE 76 – WYSZUKIWANIE FRAGMENTU NAZWISKA Z FORMULARZA
+
+Połącz nowe LIKE ze znanym formularzem POST.
+
+1. Utwórz formularz z polem nazwanym fragment i przyciskiem Szukaj.
+2. Ustaw method="POST".
+3. Po wysłaniu formularza pobierz:
+   $fragment = $_POST["fragment"];
+4. Na początek przetestuj działanie LIKE na stałym przykładzie:
+   $sql = "SELECT * FROM uczniowie WHERE nazwisko LIKE '%ski%'";
+5. Następnie zmodyfikuj program tak, aby szukał fragmentu wpisanego w formularzu.
+6. Wyświetl znalezionych uczniów za pomocą while.
+7. Jeżeli nie znaleziono żadnego rekordu, wyświetl: Brak wyników.
+8. Przetestuj co najmniej dwa różne fragmenty nazwiska.
+
+PODPOWIEDŹ:
+Wzorzec składa się ze znaku %, wpisanego fragmentu i kolejnego znaku %.
+Do sprawdzenia liczby znalezionych rekordów użyj mysqli_num_rows().
+
+UWAGA:
+Wstawianie tekstu użytkownika bezpośrednio do SQL nie jest bezpieczne. To ćwiczenie wykonujemy tylko lokalnie na testowej bazie; w rzeczywistych aplikacjach używa się zapytań przygotowanych. Nie publikuj takiego programu w Internecie.
+
+============================================================
+
+ZADANIE 77 – UCZNIOWIE W PRZEDZIALE WIEKU
+
+Wcześniej używaliśmy warunków <, > i >=. Teraz poznamy BETWEEN.
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE wiek BETWEEN 17 AND 19 ORDER BY wiek ASC";
+3. W pętli while wyświetl imię, nazwisko i wiek.
+4. Sprawdź, czy pojawiają się osoby w wieku 17, 18 i 19 lat.
+5. Zmień przedział na 18–20 i sprawdź wynik.
+
+NOWY ELEMENT:
+BETWEEN 17 AND 19 obejmuje także obie granice: 17 i 19.
+
+============================================================
+
+ZADANIE 78 – DWA WARUNKI W JEDNYM ZAPYTANIU
+
+1. Połącz się z bazą.
+2. Wykonaj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE wiek >= 18 AND wiek <= 20";
+3. Wyświetl wyniki w pętli while.
+4. Zmień zapytanie na:
+   $sql = "SELECT * FROM uczniowie WHERE wiek < 18 OR wiek > 20";
+5. Porównaj wyniki obu zapytań.
+6. Wyjaśnij własnymi słowami różnicę między AND i OR.
+
+NOWE ELEMENTY:
+AND oznacza, że oba warunki muszą być spełnione.
+OR oznacza, że wystarczy spełnienie jednego warunku.
+
+============================================================
+
+ZADANIE 79 – FORMULARZ Z WYBOREM PRZEDZIAŁU WIEKU
+
+Teraz połączymy formularz POST, dwa pola liczbowe, BETWEEN, ORDER BY i obsługę braku wyników.
+
+1. Utwórz formularz z polami:
+   od
+   do
+2. Ustaw method="POST" i dodaj przycisk Pokaż.
+3. Po wysłaniu formularza pobierz wartości:
+   $od = (int) $_POST["od"];
+   $do = (int) $_POST["do"];
+4. Za pomocą if sprawdź, czy $od <= $do.
+5. Jeśli nie, wyświetl: Nieprawidłowy przedział wieku.
+6. Jeśli tak, wykonaj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE wiek BETWEEN $od AND $do ORDER BY wiek ASC";
+7. Za pomocą mysqli_num_rows() sprawdź, czy znaleziono uczniów.
+8. Jeśli nie, wyświetl: Brak uczniów w podanym przedziale.
+9. W przeciwnym przypadku wyświetl imię, nazwisko i wiek za pomocą while.
+10. Przetestuj przedział prawidłowy, pusty i odwrócony (np. od 20 do 17).
+
+CO ĆWICZYMY?
+Nie poznajemy nowej funkcji. Łączymy wcześniejsze umiejętności w działający program.
+
+============================================================
+
+ZADANIE 80 – PODSUMOWANIE: LISTA UCZNIÓW Z FILTREM I STATYSTYKĄ
+
+Przygotuj jeden program, który wykorzysta poznane elementy PHP i SQL.
+
+1. Połącz się z bazą szkola.
+2. Na początku strony wyświetl liczbę wszystkich uczniów, korzystając z:
+   SELECT COUNT(*) AS liczba FROM uczniowie
+3. Wyświetl najmniejszy i największy wiek uczniów, korzystając z MIN() i MAX().
+4. Dodaj formularz POST z dwoma polami:
+   od
+   do
+   oraz przyciskiem Filtruj.
+5. Po wysłaniu formularza pobierz obie liczby jako (int).
+6. Sprawdź instrukcją if, czy początek przedziału nie jest większy od końca.
+7. Dla prawidłowego przedziału pobierz uczniów:
+   $sql = "SELECT * FROM uczniowie WHERE wiek BETWEEN $od AND $do ORDER BY nazwisko ASC";
+8. Jeżeli nie ma wyników, wyświetl: Nie znaleziono uczniów.
+9. W przeciwnym przypadku wyświetl w pętli while:
+   id, imie, nazwisko, wiek.
+10. Nad listą wyświetl liczbę znalezionych uczniów za pomocą mysqli_num_rows().
+11. Przetestuj program dla trzech różnych przedziałów, w tym jednego bez wyników.
+12. Sprawdź, czy po odświeżeniu strony bez wysłania formularza nadal widoczna jest ogólna statystyka uczniów.
+
+SCHEMAT DZIAŁANIA:
+POŁĄCZENIE Z BAZĄ
+      ↓
+COUNT(), MIN(), MAX() → STATYSTYKI
+      ↓
+FORMULARZ POST
+      ↓
+POBRANIE I SPRAWDZENIE PRZEDZIAŁU
+      ↓
+SELECT ... WHERE ... BETWEEN ... ORDER BY
+      ↓
+mysqli_query() → mysqli_num_rows()
+      ↓
+if / else → while → LISTA UCZNIÓW
+
+CO ĆWICZYMY?
+Łączymy podstawy PHP, formularze, warunki, pętle, zapytania SQL, filtrowanie i statystyki.
+Nie trzeba tworzyć nowej bazy ani tabeli.
+
+============================================================
+
+UWAGA:
+Pracujemy na lokalnej bazie ćwiczeniowej. W zadaniach wykorzystujących dane z formularzy należy pamiętać, że bezpośrednie wstawianie tekstu użytkownika do SQL jest uproszczeniem dydaktycznym. W kolejnych ćwiczeniach poznamy bezpieczne zapytania przygotowane.
