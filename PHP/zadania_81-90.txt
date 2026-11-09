@@ -1,0 +1,255 @@
+ZADANIA 81–90 – PHP + MySQL
+Kontynuacja zadań 1–80. Pracuj w pliku index.php, z bazą szkola i tabelą uczniowie (id, imie, nazwisko, wiek).
+W poprzednich zadaniach dane tekstowe z formularza trafiały bezpośrednio do zapytania SQL. Teraz nauczymy się korzystać z zapytań przygotowanych.
+Połączenie z bazą:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+Zadania wykonuj kolejno. Testuj na lokalnej bazie ćwiczeniowej.
+
+============================================================
+
+ZADANIE 81 – PIERWSZE ZAPYTANIE PRZYGOTOWANE
+
+W zadaniu 53 wyszukiwaliśmy ucznia po id. Teraz wykonamy to samo w bezpieczniejszy sposób.
+
+1. Połącz się z bazą szkola.
+2. Utwórz zmienną:
+   $id = 1;
+3. Przygotuj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE id=?";
+   $stmt = mysqli_prepare($polaczenie, $sql);
+4. Powiąż wartość z zapytaniem:
+   mysqli_stmt_bind_param($stmt, "i", $id);
+5. Wykonaj zapytanie:
+   mysqli_stmt_execute($stmt);
+6. Pobierz wynik:
+   $wynik = mysqli_stmt_get_result($stmt);
+7. Pobierz rekord za pomocą mysqli_fetch_assoc() i wyświetl imię oraz nazwisko ucznia, jeżeli rekord istnieje.
+8. Zmień $id na inny numer i sprawdź działanie.
+
+NOWE ELEMENTY:
+? jest miejscem na wartość przekazaną osobno.
+mysqli_prepare() przygotowuje zapytanie.
+mysqli_stmt_bind_param() wiąże zmienną z miejscem oznaczonym ?.
+"i" oznacza liczbę całkowitą (integer).
+
+============================================================
+
+ZADANIE 82 – WYSZUKIWANIE UCZNIA PO ID Z FORMULARZA
+
+1. Wykorzystaj kod z zadania 81.
+2. Utwórz formularz POST z polem id i przyciskiem Szukaj.
+3. Po wysłaniu formularza pobierz:
+   $id = (int) $_POST["id"];
+4. Zamiast wpisywać id na stałe, przekaż je do zapytania przez mysqli_stmt_bind_param().
+5. Wykonaj zapytanie i pobierz wynik.
+6. Jeżeli znaleziono ucznia, wyświetl jego imię, nazwisko i wiek.
+7. Jeżeli nie znaleziono rekordu, wyświetl: Nie znaleziono ucznia.
+8. Sprawdź program dla istniejącego i nieistniejącego id.
+
+CO ĆWICZYMY?
+Łączymy formularz POST z zapytaniem przygotowanym.
+Wartość z formularza nie jest wstawiana bezpośrednio do tekstu SQL.
+
+============================================================
+
+ZADANIE 83 – WYSZUKIWANIE UCZNIÓW PO IMIENIU
+
+W zadaniu 54 wyszukiwaliśmy imię przez WHERE. Teraz użyjemy parametru tekstowego.
+
+1. Utwórz formularz POST z polem imie i przyciskiem Szukaj.
+2. Po wysłaniu pobierz:
+   $imie = $_POST["imie"];
+3. Przygotuj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE imie=?";
+   $stmt = mysqli_prepare($polaczenie, $sql);
+4. Powiąż parametr:
+   mysqli_stmt_bind_param($stmt, "s", $imie);
+5. Wykonaj zapytanie i pobierz wynik przez mysqli_stmt_get_result().
+6. Za pomocą while wyświetl imiona i nazwiska wszystkich znalezionych uczniów.
+7. Jeżeli nie ma wyników, wyświetl: Brak wyników.
+8. Przetestuj dwa różne imiona.
+
+NOWY ELEMENT:
+"s" oznacza tekst (string). Dla tekstu używamy "s", a dla liczby całkowitej "i".
+
+============================================================
+
+ZADANIE 84 – WYSZUKIWANIE FRAGMENTU NAZWISKA
+
+W zadaniu 76 poznaliśmy LIKE. Teraz połączymy LIKE z zapytaniem przygotowanym.
+
+1. Utwórz formularz POST z polem fragment i przyciskiem Szukaj.
+2. Pobierz tekst z formularza:
+   $fragment = $_POST["fragment"];
+3. Utwórz wzorzec:
+   $wzorzec = "%" . $fragment . "%";
+4. Przygotuj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE nazwisko LIKE ? ORDER BY nazwisko ASC";
+5. Przygotuj zapytanie przez mysqli_prepare().
+6. Powiąż $wzorzec jako parametr typu "s".
+7. Wykonaj zapytanie, pobierz wynik i wyświetl znalezionych uczniów za pomocą while.
+8. Jeżeli nie znaleziono uczniów, wyświetl: Brak wyników.
+9. Przetestuj co najmniej dwa fragmenty nazwiska.
+
+WAŻNE:
+Znaki % należą do wartości parametru $wzorzec, a nie do tekstu SQL wokół znaku ?.
+
+============================================================
+
+ZADANIE 85 – WYSZUKIWANIE W PRZEDZIALE WIEKU
+
+W zadaniu 79 filtrowaliśmy uczniów przez BETWEEN. Teraz użyjemy dwóch parametrów.
+
+1. Utwórz formularz POST z polami od i do oraz przyciskiem Filtruj.
+2. Pobierz wartości:
+   $od = (int) $_POST["od"];
+   $do = (int) $_POST["do"];
+3. Za pomocą if sprawdź, czy $od <= $do.
+4. Jeżeli przedział jest nieprawidłowy, wyświetl: Nieprawidłowy przedział wieku.
+5. W przeciwnym przypadku przygotuj zapytanie:
+   $sql = "SELECT * FROM uczniowie WHERE wiek BETWEEN ? AND ? ORDER BY wiek ASC";
+6. Przygotuj zapytanie i powiąż dwa parametry:
+   mysqli_stmt_bind_param($stmt, "ii", $od, $do);
+7. Wykonaj zapytanie i wyświetl imię, nazwisko i wiek znalezionych uczniów.
+8. Jeżeli nie ma wyników, wyświetl: Brak uczniów w podanym przedziale.
+9. Sprawdź przedział poprawny, pusty i odwrócony.
+
+NOWY ELEMENT:
+"ii" oznacza dwa parametry będące liczbami całkowitymi.
+Kolejność zmiennych musi odpowiadać kolejności znaków ? w zapytaniu.
+
+============================================================
+
+ZADANIE 86 – DODAWANIE UCZNIA PRZEZ ZAPYTANIE PRZYGOTOWANE
+
+1. Utwórz formularz POST z polami imie, nazwisko i wiek.
+2. Dodaj przycisk Dodaj ucznia.
+3. Po wysłaniu formularza pobierz wartości do zmiennych $imie, $nazwisko i $wiek.
+4. Zamień wiek na liczbę całkowitą za pomocą (int).
+5. Przygotuj zapytanie:
+   $sql = "INSERT INTO uczniowie (imie, nazwisko, wiek) VALUES (?, ?, ?)";
+6. Przygotuj je przez mysqli_prepare().
+7. Powiąż parametry:
+   mysqli_stmt_bind_param($stmt, "ssi", $imie, $nazwisko, $wiek);
+8. Wykonaj zapytanie przez mysqli_stmt_execute().
+9. Wyświetl komunikat Dodano ucznia, jeżeli wykonanie się powiodło.
+10. Sprawdź w phpMyAdmin, czy rekord został zapisany.
+
+NOWY ELEMENT:
+"ssi" oznacza kolejno: tekst, tekst, liczba całkowita.
+INSERT może również korzystać z zapytań przygotowanych.
+
+============================================================
+
+ZADANIE 87 – ZMIANA WIEKU UCZNIA
+
+1. Utwórz formularz POST z polami id i wiek.
+2. Dodaj przycisk Zmień wiek.
+3. Po wysłaniu pobierz obie wartości jako liczby całkowite.
+4. Przygotuj zapytanie:
+   $sql = "UPDATE uczniowie SET wiek=? WHERE id=?";
+5. Powiąż wartości w odpowiedniej kolejności:
+   mysqli_stmt_bind_param($stmt, "ii", $wiek, $id);
+6. Wykonaj zapytanie.
+7. Sprawdź liczbę zmienionych rekordów:
+   $liczba = mysqli_stmt_affected_rows($stmt);
+8. Jeżeli $liczba > 0, wyświetl: Zmieniono dane ucznia.
+9. W przeciwnym przypadku wyświetl: Nie zmieniono żadnego rekordu.
+10. Przetestuj istniejące i nieistniejące id.
+
+NOWY ELEMENT:
+mysqli_stmt_affected_rows() podaje liczbę rekordów zmienionych przez zapytanie.
+Wynik 0 może również oznaczać, że wpisano taki sam wiek jak wcześniej.
+
+============================================================
+
+ZADANIE 88 – USUWANIE UCZNIA PO ID
+
+1. Utwórz formularz POST z polem id i przyciskiem Usuń ucznia.
+2. Po wysłaniu pobierz id jako liczbę całkowitą.
+3. Przygotuj zapytanie:
+   $sql = "DELETE FROM uczniowie WHERE id=?";
+4. Przygotuj zapytanie i powiąż parametr typu "i".
+5. Wykonaj zapytanie.
+6. Za pomocą mysqli_stmt_affected_rows() sprawdź, czy usunięto rekord.
+7. Jeżeli usunięto rekord, wyświetl: Usunięto ucznia.
+8. W przeciwnym przypadku wyświetl: Nie znaleziono ucznia do usunięcia.
+9. Sprawdź wynik w phpMyAdmin.
+
+UWAGA:
+Pracuj tylko na testowych rekordach. DELETE usuwa dane z tabeli.
+Nie usuwaj warunku WHERE z zapytania.
+
+============================================================
+
+ZADANIE 89 – ZAMYKANIE ZAPYTANIA I POŁĄCZENIA
+
+1. Wykorzystaj program wyszukujący ucznia po id z zadania 82.
+2. Po wykonaniu zapytania i wyświetleniu wyniku dodaj:
+   mysqli_stmt_close($stmt);
+3. Po zakończeniu pracy z bazą dodaj:
+   mysqli_close($polaczenie);
+4. Uruchom program i sprawdź, czy nadal działa.
+5. Zmień id i wykonaj wyszukiwanie ponownie.
+6. Sprawdź, czy nie próbujesz korzystać z $stmt po jego zamknięciu.
+
+NOWE ELEMENTY:
+mysqli_stmt_close() zamyka przygotowane zapytanie.
+mysqli_close() zamyka połączenie z bazą.
+Obie instrukcje umieszczamy po zakończeniu korzystania z danego zasobu.
+
+============================================================
+
+ZADANIE 90 – PODSUMOWANIE: BEZPIECZNE WYSZUKIWANIE I DODAWANIE UCZNIÓW
+
+Przygotuj jeden program wykorzystujący formularze, zapytania przygotowane i listę uczniów.
+
+1. Połącz się z bazą szkola.
+2. Na stronie umieść formularz dodawania ucznia z polami imie, nazwisko i wiek.
+3. Dodaj przycisk Dodaj ucznia.
+4. Po wysłaniu formularza dodawania wykorzystaj zapytanie przygotowane:
+   INSERT INTO uczniowie (imie, nazwisko, wiek) VALUES (?, ?, ?)
+5. Powiąż parametry jako "ssi" i wykonaj zapytanie.
+6. Dodaj drugi formularz POST z polem fragment i przyciskiem Szukaj.
+7. Aby rozpoznać, który formularz został wysłany, dodaj do przycisków atrybuty:
+   name="akcja" value="dodaj"
+   name="akcja" value="szukaj"
+8. Po wysłaniu sprawdź $_POST["akcja"] za pomocą if / elseif.
+9. Dla wyszukiwania utwórz wzorzec z % po obu stronach fragmentu nazwiska.
+10. Przygotuj zapytanie:
+    SELECT * FROM uczniowie WHERE nazwisko LIKE ? ORDER BY nazwisko ASC
+11. Powiąż wzorzec jako "s", wykonaj zapytanie i pobierz wynik.
+12. Wyświetl znalezionych uczniów w pętli while lub komunikat Brak wyników.
+13. Niezależnie od formularzy wyświetl liczbę wszystkich uczniów, korzystając z:
+    SELECT COUNT(*) AS liczba FROM uczniowie
+14. Zamknij wykorzystane zapytania i połączenie po zakończeniu pracy z bazą.
+15. Przetestuj dodanie ucznia, wyszukanie istniejącego nazwiska i wyszukiwanie bez wyników.
+
+SCHEMAT DZIAŁANIA:
+POŁĄCZENIE Z BAZĄ
+       ↓
+FORMULARZ DODAWANIA / FORMULARZ WYSZUKIWANIA
+       ↓
+POST + WYBÓR AKCJI
+       ↓
+mysqli_prepare() → mysqli_stmt_bind_param()
+       ↓
+mysqli_stmt_execute()
+       ↓
+INSERT LUB SELECT
+       ↓
+KOMUNIKAT / LISTA WYNIKÓW
+       ↓
+COUNT(*) → LICZBA UCZNIÓW
+       ↓
+ZAMKNIĘCIE ZAPYTAŃ I POŁĄCZENIA
+
+CO ĆWICZYMY?
+Łączymy znane formularze, instrukcje warunkowe, pętle i SQL z nowymi zapytaniami przygotowanymi.
+Nie trzeba tworzyć nowej bazy ani tabeli.
+
+============================================================
+
+UWAGA:
+W ćwiczeniach zakładamy lokalne środowisko z obsługą mysqli i mysqlnd (potrzebną do mysqli_stmt_get_result()).
+Zadania skupiają się na zapytaniach przygotowanych. W kolejnych ćwiczeniach można rozbudować program o walidację danych i obsługę błędów.
