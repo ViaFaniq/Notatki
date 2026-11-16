@@ -1,0 +1,227 @@
+ZADANIA 91–100 – PHP + MySQL
+Kontynuacja zadań 1–90. Pracuj w pliku index.php, z bazą szkola i tabelą uczniowie (id, imie, nazwisko, wiek).
+W poprzednich zadaniach poznaliśmy zapytania przygotowane. Teraz nauczymy się sprawdzać dane z formularzy i reagować na błędy.
+Połączenie z bazą:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+Zadania wykonuj kolejno. Testuj na lokalnej bazie ćwiczeniowej.
+
+============================================================
+
+ZADANIE 91 – SPRAWDZANIE, CZY POLE NIE JEST PUSTE
+
+1. Utwórz formularz POST z polem imie i przyciskiem Sprawdź.
+2. Po wysłaniu formularza pobierz:
+   $imie = $_POST["imie"];
+3. Sprawdź warunkiem if:
+   if ($imie == "")
+4. Jeżeli pole jest puste, wyświetl: Podaj imię.
+5. W przeciwnym przypadku wyświetl: Wpisano imię: ...
+6. Przetestuj formularz z pustym polem i wpisanym imieniem.
+
+NOWY ELEMENT:
+Przed użyciem danych z formularza sprawdzamy, czy użytkownik je podał.
+
+============================================================
+
+ZADANIE 92 – USUWANIE ZBĘDNYCH SPACJI
+
+1. Wykorzystaj formularz z zadania 91.
+2. Po pobraniu imienia zastosuj:
+   $imie = trim($_POST["imie"]);
+3. Sprawdź za pomocą if, czy $imie == "".
+4. Jeśli tak, wyświetl: Podaj imię.
+5. Jeśli nie, wyświetl podane imię.
+6. Przetestuj wpisanie samych spacji oraz imienia ze spacjami na początku i końcu.
+
+NOWY ELEMENT:
+trim() usuwa białe znaki z początku i końca tekstu. Same spacje nie powinny być uznane za poprawne imię.
+
+============================================================
+
+ZADANIE 93 – SPRAWDZANIE DŁUGOŚCI IMIENIA
+
+1. Utwórz formularz POST z polem imie.
+2. Pobierz imię i usuń zbędne spacje przez trim().
+3. Oblicz długość tekstu:
+   $dlugosc = mb_strlen($imie, "UTF-8");
+4. Jeśli imię jest puste, wyświetl: Podaj imię.
+5. W przeciwnym przypadku sprawdź, czy $dlugosc > 50.
+6. Jeżeli tak, wyświetl: Imię jest za długie.
+7. W pozostałych przypadkach wyświetl: Poprawna długość imienia.
+8. Przetestuj imię krótkie, puste i dłuższe niż 50 znaków.
+
+NOWY ELEMENT:
+mb_strlen() liczy znaki tekstu, także polskie litery (wymaga rozszerzenia mbstring).
+W tabeli uczniowie kolumna imie ma typ VARCHAR(50).
+
+============================================================
+
+ZADANIE 94 – SPRAWDZANIE, CZY WIEK JEST LICZBĄ
+
+1. Utwórz formularz POST z polem wiek i przyciskiem Sprawdź.
+2. Pobierz wartość:
+   $wiek = trim($_POST["wiek"]);
+3. Sprawdź:
+   if (filter_var($wiek, FILTER_VALIDATE_INT) === false)
+4. Jeżeli warunek jest spełniony, wyświetl: Wiek musi być liczbą całkowitą.
+5. W przeciwnym przypadku wyświetl: Podano wiek: ...
+6. Przetestuj wartości 18, abc, 18.5 i puste pole.
+
+NOWY ELEMENT:
+FILTER_VALIDATE_INT sprawdza, czy wartość jest poprawną liczbą całkowitą.
+Nie zamieniaj niepoprawnego tekstu na 0 za pomocą (int) przed sprawdzeniem.
+
+============================================================
+
+ZADANIE 95 – SPRAWDZANIE PRZEDZIAŁU WIEKU
+
+1. Wykorzystaj formularz z zadania 94.
+2. Najpierw sprawdź, czy wpisano poprawną liczbę całkowitą.
+3. Jeśli nie, wyświetl: Nieprawidłowy wiek.
+4. Jeżeli liczba jest poprawna, sprawdź, czy mieści się w przedziale od 14 do 100.
+5. Użyj warunku:
+   if ($wiek < 14 || $wiek > 100)
+6. Jeśli warunek jest spełniony, wyświetl: Wiek poza dozwolonym zakresem.
+7. W przeciwnym przypadku wyświetl: Wiek poprawny.
+8. Przetestuj wartości 13, 14, 18, 100 i 101.
+
+CO ĆWICZYMY?
+Łączymy sprawdzanie typu danych z warunkiem logicznym OR (||).
+Przedział 14–100 jest założeniem ćwiczenia, a nie ograniczeniem narzuconym przez MySQL.
+
+============================================================
+
+ZADANIE 96 – WALIDACJA FORMULARZA DODAWANIA UCZNIA
+
+1. Utwórz formularz POST z polami imie, nazwisko i wiek oraz przyciskiem Dodaj ucznia.
+2. Po wysłaniu pobierz imię i nazwisko przez trim().
+3. Pobierz wiek jako tekst, a następnie sprawdź go przez FILTER_VALIDATE_INT.
+4. Za pomocą if / elseif sprawdź kolejno:
+   - czy imię i nazwisko nie są puste,
+   - czy ich długość nie przekracza 50 znaków (mb_strlen()),
+   - czy wiek jest liczbą całkowitą,
+   - czy wiek mieści się w przedziale 14–100.
+5. Dla pierwszego wykrytego błędu wyświetl odpowiedni komunikat.
+6. Jeżeli wszystkie dane są poprawne, wyświetl: Dane gotowe do zapisania.
+7. Przetestuj kilka błędnych zestawów danych oraz jeden poprawny.
+
+WAŻNE:
+W tym zadaniu jeszcze nie wykonuj INSERT. Najpierw upewnij się, że walidacja działa.
+
+============================================================
+
+ZADANIE 97 – DODAWANIE UCZNIA TYLKO Z POPRAWNYMI DANYMI
+
+1. Wykorzystaj formularz i sprawdzanie danych z zadania 96.
+2. Połącz się z bazą szkola.
+3. Tylko wtedy, gdy wszystkie dane są poprawne, przygotuj zapytanie:
+   $sql = "INSERT INTO uczniowie (imie, nazwisko, wiek) VALUES (?, ?, ?)";
+4. Użyj mysqli_prepare().
+5. Powiąż parametry:
+   mysqli_stmt_bind_param($stmt, "ssi", $imie, $nazwisko, $wiek);
+6. Wykonaj zapytanie przez mysqli_stmt_execute().
+7. Jeśli zapis się powiódł, wyświetl: Dodano ucznia.
+8. Jeśli zapis się nie powiódł, wyświetl: Nie udało się dodać ucznia.
+9. Zamknij zapytanie i połączenie po zakończeniu pracy.
+10. Sprawdź w phpMyAdmin, że błędne dane nie zostały zapisane.
+
+CO ĆWICZYMY?
+Walidacja odbywa się przed INSERT. Zapytanie przygotowane nadal chroni sposób przekazywania wartości do SQL.
+
+============================================================
+
+ZADANIE 98 – OBSŁUGA BŁĘDU POŁĄCZENIA Z BAZĄ
+
+1. Utwórz prosty program łączący się z bazą szkola.
+2. Przed połączeniem ustaw tryb zgłaszania błędów mysqli:
+   mysqli_report(MYSQLI_REPORT_OFF);
+3. Wykonaj:
+   $polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+4. Sprawdź za pomocą if, czy $polaczenie === false.
+5. Jeżeli połączenie się nie udało, wyświetl: Nie można połączyć się z bazą danych.
+6. W przeciwnym przypadku wyświetl: Połączono z bazą danych.
+7. Dla testu zmień tymczasowo nazwę bazy na nieistniejącą.
+8. Sprawdź komunikat, a następnie przywróć nazwę szkola.
+9. Zamknij poprawnie otwarte połączenie.
+
+NOWY ELEMENT:
+mysqli_report(MYSQLI_REPORT_OFF) pozwala w tym ćwiczeniu sprawdzać błędy przez wartości zwracane przez funkcje mysqli.
+Nie pokazujemy użytkownikowi szczegółów technicznych błędu połączenia.
+
+============================================================
+
+ZADANIE 99 – SPRAWDZANIE BŁĘDU ZAPYTANIA SQL
+
+1. Połącz się z bazą szkola i ustaw wcześniej:
+   mysqli_report(MYSQLI_REPORT_OFF);
+2. Utwórz zapytanie:
+   $sql = "SELECT * FROM uczniowie";
+3. Wykonaj je:
+   $wynik = mysqli_query($polaczenie, $sql);
+4. Sprawdź:
+   if ($wynik === false)
+5. W przypadku błędu wyświetl: Błąd podczas pobierania danych.
+6. W przeciwnym przypadku wyświetl uczniów w pętli while.
+7. Zmień tymczasowo nazwę tabeli w zapytaniu na nieistniejącą.
+8. Sprawdź reakcję programu i przywróć poprawną nazwę uczniowie.
+9. Zamknij połączenie po zakończeniu pracy.
+
+NOWY ELEMENT:
+Zapytanie SQL może się nie udać nawet wtedy, gdy połączenie z bazą działa.
+W aplikacji dla użytkownika pokazujemy zrozumiały komunikat zamiast szczegółów SQL.
+
+============================================================
+
+ZADANIE 100 – PODSUMOWANIE: FORMULARZ Z WALIDACJĄ I LISTĄ UCZNIÓW
+
+Przygotuj jeden program, który sprawdza dane przed zapisaniem i obsługuje podstawowe błędy.
+
+1. W pliku index.php połącz się z bazą szkola.
+2. Obsłuż nieudane połączenie komunikatem: Nie można połączyć się z bazą danych.
+3. Na stronie umieść formularz POST z polami imie, nazwisko i wiek.
+4. Dodaj przycisk Dodaj ucznia.
+5. Po wysłaniu formularza usuń zbędne spacje z imienia i nazwiska za pomocą trim().
+6. Sprawdź, czy imię i nazwisko są niepuste oraz mają maksymalnie 50 znaków.
+7. Sprawdź, czy wiek jest liczbą całkowitą z przedziału 14–100.
+8. Jeżeli dane są niepoprawne, wyświetl odpowiedni komunikat i nie zapisuj rekordu.
+9. Jeżeli dane są poprawne, przygotuj zapytanie:
+   INSERT INTO uczniowie (imie, nazwisko, wiek) VALUES (?, ?, ?)
+10. Powiąż parametry jako "ssi" i wykonaj zapytanie.
+11. Wyświetl komunikat Dodano ucznia albo Nie udało się dodać ucznia.
+12. Pod formularzem pobierz wszystkich uczniów zapytaniem:
+    SELECT * FROM uczniowie ORDER BY nazwisko ASC
+13. Jeśli pobranie się powiodło, wyświetl id, imię, nazwisko i wiek w pętli while.
+14. Jeśli zapytanie się nie udało, wyświetl: Błąd podczas pobierania danych.
+15. Zamknij wykorzystane zapytania i połączenie po zakończeniu pracy.
+16. Przetestuj: puste imię, same spacje, zbyt długie nazwisko, wiek abc, wiek 13 i poprawnego ucznia.
+17. Sprawdź w phpMyAdmin, że zapisano tylko poprawne dane.
+
+SCHEMAT DZIAŁANIA:
+FORMULARZ POST
+      ↓
+trim() + sprawdzanie długości i wieku
+      ↓
+if / elseif – walidacja
+      ↓
+DANE POPRAWNE? ── NIE → KOMUNIKAT (BEZ INSERT)
+      ↓ TAK
+mysqli_prepare() → bind_param() → execute()
+      ↓
+KOMUNIKAT O ZAPISIE
+      ↓
+SELECT + OBSŁUGA BŁĘDU
+      ↓
+while → LISTA UCZNIÓW
+      ↓
+ZAMKNIĘCIE ZASOBÓW
+
+CO ĆWICZYMY?
+Łączymy formularze, instrukcje warunkowe, walidację danych, zapytania przygotowane i obsługę błędów.
+Nie trzeba tworzyć nowej bazy ani tabeli.
+
+============================================================
+
+UWAGA:
+Ćwiczenia zakładają lokalne środowisko PHP z rozszerzeniami mysqli i mbstring oraz testową bazę MySQL.
+W zadaniach 98–99 wyłączamy raportowanie wyjątków mysqli wyłącznie po to, aby przećwiczyć sprawdzanie zwracanych wartości. W aplikacjach produkcyjnych należy stosować kontrolowaną obsługę wyjątków, logowanie błędów i bezpieczną konfigurację połączenia.
+Dane wyświetlane na stronie pochodzące od użytkowników należy zabezpieczać przed HTML/XSS, np. przez htmlspecialchars(). To zagadnienie można rozwinąć w następnych ćwiczeniach.
