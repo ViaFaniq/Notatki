@@ -1,0 +1,202 @@
+ZADANIA 101–110 – PHP + MySQL
+Kontynuacja zadań 1–100. Pracuj w pliku index.php, z bazą szkola i tabelą uczniowie (id, imie, nazwisko, wiek).
+W poprzednim zestawie sprawdzaliśmy dane z formularzy i obsługiwaliśmy błędy. Teraz nauczymy się bezpiecznie wyświetlać dane w HTML, zachowywać wartości formularza oraz ograniczać przypadkowe ponowne wysyłanie danych.
+Połączenie z lokalną bazą ćwiczeniową:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+Zadania wykonuj kolejno. Nie twórz nowej bazy ani tabeli.
+
+============================================================
+
+ZADANIE 101 – BEZPIECZNE WYŚWIETLANIE IMIENIA
+
+1. Utwórz formularz POST z polem imie i przyciskiem Pokaż.
+2. Po wysłaniu pobierz imię i usuń zbędne spacje:
+   $imie = trim($_POST["imie"]);
+3. Zamiast wyświetlać imię bezpośrednio, użyj:
+   echo htmlspecialchars($imie, ENT_QUOTES, "UTF-8");
+4. Przetestuj zwykłe imię, np. Anna.
+5. Wpisz w pole tekst: <b>Anna</b>.
+6. Sprawdź, czy przeglądarka wyświetla wpisany tekst, a nie pogrubione imię.
+
+NOWY ELEMENT:
+htmlspecialchars() zamienia znaki specjalne HTML na bezpieczne odpowiedniki przy wyświetlaniu tekstu. Nie zastępuje zapytań przygotowanych SQL.
+
+============================================================
+
+ZADANIE 102 – BEZPIECZNA LISTA UCZNIÓW
+
+1. Połącz się z bazą szkola.
+2. Pobierz uczniów zapytaniem:
+   $sql = "SELECT * FROM uczniowie ORDER BY nazwisko ASC";
+3. Wykonaj zapytanie przez mysqli_query().
+4. W pętli while pobierz kolejne rekordy przez mysqli_fetch_assoc().
+5. Wyświetl imię i nazwisko, stosując htmlspecialchars() osobno dla obu pól.
+6. Wiek wyświetl jako liczbę całkowitą, np. przez (int).
+7. Dodaj w testowej bazie ucznia z nazwiskiem zawierającym znak < lub & i sprawdź wynik.
+8. Zamknij połączenie po zakończeniu pracy.
+
+CO ĆWICZYMY?
+Dane pobrane z bazy również traktujemy jako tekst, który należy zabezpieczyć przed umieszczeniem w HTML.
+
+============================================================
+
+ZADANIE 103 – ZACHOWANIE IMIENIA W FORMULARZU
+
+1. Utwórz formularz POST z polem imie.
+2. Przed formularzem ustaw:
+   $imie = "";
+3. Po wysłaniu formularza pobierz wpisane imię do zmiennej $imie.
+4. W atrybucie value pola formularza wyświetl wartość zmiennej.
+5. Wykorzystaj htmlspecialchars($imie, ENT_QUOTES, "UTF-8").
+6. Wyślij formularz i sprawdź, czy wpisane imię pozostaje w polu.
+7. Przetestuj również tekst zawierający cudzysłów.
+
+NOWY ELEMENT:
+Atrybut value pozwala zachować wpisaną wartość po ponownym wyświetleniu strony. Wartość w HTML również trzeba zabezpieczyć.
+
+============================================================
+
+ZADANIE 104 – FORMULARZ Z KOMUNIKATEM BŁĘDU I ZACHOWANYMI DANYMI
+
+1. Wykorzystaj formularz z zadania 103.
+2. Dodaj pole nazwisko i przycisk Sprawdź.
+3. Na początku programu ustaw puste zmienne $imie, $nazwisko i $komunikat.
+4. Po wysłaniu pobierz imię i nazwisko przez trim().
+5. Jeśli któreś pole jest puste, zapisz do $komunikat tekst: Uzupełnij oba pola.
+6. W przeciwnym przypadku zapisz: Dane poprawne.
+7. Wyświetl komunikat nad formularzem.
+8. Zachowaj wartości obu pól za pomocą value i htmlspecialchars().
+9. Sprawdź, czy po błędzie użytkownik nie musi ponownie wpisywać poprawnie uzupełnionego pola.
+
+CO ĆWICZYMY?
+Łączymy walidację, komunikaty i wygodniejszą obsługę formularza.
+
+============================================================
+
+ZADANIE 105 – BEZPIECZNE WYŚWIETLANIE KOMUNIKATÓW
+
+1. Wykorzystaj program z zadania 104.
+2. Dodaj zmienną:
+   $komunikat = "";
+3. Ustawiaj jej wartość w instrukcji if / else.
+4. Wyświetl komunikat w osobnym akapicie HTML tylko wtedy, gdy nie jest pusty.
+5. Wykorzystaj htmlspecialchars() przy wyświetlaniu komunikatu.
+6. Nie łącz bezpośrednio tekstu wpisanego przez użytkownika ze znacznikiem HTML.
+7. Przetestuj puste pola i poprawne dane.
+
+PRZYPOMNIENIE:
+Warto oddzielać obliczanie komunikatu w PHP od jego wyświetlania w HTML.
+
+============================================================
+
+ZADANIE 106 – PRZEKIEROWANIE PO DODANIU UCZNIA
+
+1. Wykorzystaj poprawny formularz dodawania ucznia z zadania 97.
+2. Po udanym INSERT nie wyświetlaj od razu komunikatu przez echo.
+3. Zamiast tego wykonaj:
+   header("Location: index.php?dodano=1");
+   exit;
+4. Umieść obsługę formularza i przekierowanie przed wysłaniem jakiegokolwiek HTML.
+5. Po otwarciu strony sprawdź, czy istnieje parametr $_GET["dodano"].
+6. Jeśli jego wartość wynosi "1", wyświetl: Dodano ucznia.
+7. Dodaj ucznia, a następnie odśwież stronę.
+8. Sprawdź w phpMyAdmin, czy odświeżenie nie dodało drugiego rekordu.
+
+NOWY ELEMENT:
+header("Location: ...") wysyła przekierowanie. exit kończy bieżące wykonanie skryptu. Jest to prosty przykład schematu POST → przekierowanie → GET (PRG).
+
+============================================================
+
+ZADANIE 107 – KOMUNIKAT PO PRZEKIEROWANIU
+
+1. Wykorzystaj program z zadania 106.
+2. Po udanym dodaniu ucznia przekieruj na:
+   index.php?status=dodano
+3. Po otwarciu strony pobierz parametr status tylko wtedy, gdy istnieje.
+4. Jeśli status ma wartość dodano, wyświetl: Uczeń został zapisany.
+5. Dla innej wartości parametru nie wyświetlaj komunikatu o sukcesie.
+6. Sprawdź działanie z parametrem i bez parametru.
+7. Nie traktuj samego parametru GET jako dowodu, że zapis naprawdę nastąpił — jest to jedynie informacja dla interfejsu po przekierowaniu.
+
+CO ĆWICZYMY?
+Rozdzielamy zapis danych metodą POST od wyświetlania strony metodą GET.
+
+============================================================
+
+ZADANIE 108 – POTWIERDZENIE USUNIĘCIA UCZNIA
+
+1. Wyświetl listę uczniów z id, imieniem i nazwiskiem.
+2. Przy każdym rekordzie utwórz osobny formularz POST z przyciskiem Usuń.
+3. W formularzu umieść ukryte pole:
+   <input type="hidden" name="id" value="...">
+4. W miejsce kropek wpisz id bieżącego ucznia, zamienione na liczbę całkowitą.
+5. Dodaj do przycisku atrybut:
+   onclick="return confirm('Czy na pewno usunąć ucznia?');"
+6. Sprawdź, czy Anuluj zatrzymuje wysłanie formularza.
+7. Po potwierdzeniu pobierz id z $_POST i sprawdź, czy jest dodatnią liczbą całkowitą.
+8. Usuń rekord za pomocą zapytania przygotowanego DELETE FROM uczniowie WHERE id=? z parametrem "i".
+9. Po poprawnym usunięciu przekieruj na index.php?status=usunieto.
+10. Przetestuj działanie wyłącznie na rekordach ćwiczeniowych.
+
+WAŻNE:
+Potwierdzenie JavaScript ogranicza przypadkowe kliknięcia, ale nie stanowi zabezpieczenia serwera. Operacje usuwania wykonujemy przez POST, a nie przez link GET.
+
+============================================================
+
+ZADANIE 109 – WYŚWIETLANIE KOMUNIKATU PO USUNIĘCIU
+
+1. Wykorzystaj program z zadania 108.
+2. Po otwarciu strony sprawdź parametr $_GET["status"].
+3. Jeżeli jego wartość wynosi usunieto, wyświetl: Usunięto ucznia.
+4. Jeśli parametr nie istnieje, nie wyświetlaj tego komunikatu.
+5. Jeśli DELETE nie usunął żadnego rekordu, nie pokazuj komunikatu o sukcesie.
+6. W tym celu po wykonaniu DELETE sprawdź mysqli_stmt_affected_rows($stmt).
+7. Dla wyniku 0 przekieruj na index.php?status=brak.
+8. Dla status=brak wyświetl: Nie znaleziono ucznia do usunięcia.
+9. Przetestuj poprawne i nieistniejące id.
+
+CO ĆWICZYMY?
+Komunikat zależy od rzeczywistego wyniku operacji, a nie tylko od kliknięcia przycisku.
+
+============================================================
+
+ZADANIE 110 – PODSUMOWANIE: BEZPIECZNA LISTA UCZNIÓW Z DODAWANIEM I USUWANIEM
+
+Przygotuj jeden program w index.php, który łączy elementy poznane w zadaniach 91–109.
+
+1. Połącz się z bazą szkola i obsłuż błąd połączenia.
+2. Utwórz formularz POST z polami imie, nazwisko i wiek oraz przyciskiem Dodaj ucznia.
+3. Sprawdzaj dane według zasad z zadania 100: niepuste imię i nazwisko, maksymalnie 50 znaków, wiek całkowity od 14 do 100.
+4. Przy błędnych danych wyświetl komunikat i zachowaj wartości formularza.
+5. Poprawne dane zapisuj zapytaniem przygotowanym INSERT.
+6. Po udanym zapisie zastosuj przekierowanie do index.php?status=dodano.
+7. Wyświetl listę uczniów posortowaną według nazwiska.
+8. Imię i nazwisko wyświetlaj przez htmlspecialchars(), a id i wiek jako liczby.
+9. Przy każdym uczniu dodaj formularz POST z ukrytym polem id i przyciskiem Usuń.
+10. Przed wysłaniem formularza usuwania wyświetl pytanie confirm().
+11. Po stronie PHP sprawdź id i wykonaj przygotowane zapytanie DELETE z warunkiem WHERE id=?.
+12. Sprawdź liczbę usuniętych rekordów przez mysqli_stmt_affected_rows().
+13. Po usunięciu przekieruj na stronę z parametrem status=usunieto albo status=brak.
+14. Wyświetl odpowiedni komunikat na podstawie rozpoznanego statusu.
+15. Zamknij zapytania i połączenie po zakończeniu korzystania z nich.
+16. Przetestuj: puste imię, nazwisko ze znakami < i &, nieprawidłowy wiek, poprawny zapis, odświeżenie po zapisie, anulowanie usunięcia i poprawne usunięcie.
+17. Sprawdź w phpMyAdmin, czy zawartość tabeli odpowiada wykonanym operacjom.
+
+SCHEMAT DZIAŁANIA:
+FORMULARZ POST → WALIDACJA → INSERT → PRZEKIEROWANIE
+                                     ↓
+                          KOMUNIKAT + LISTA UCZNIÓW
+                                     ↓
+                          htmlspecialchars() → HTML
+                                     ↓
+                      FORMULARZ POST USUŃ → DELETE
+                                     ↓
+                         PRZEKIEROWANIE → KOMUNIKAT
+
+CO ĆWICZYMY?
+Bezpieczne wyświetlanie danych, formularze z walidacją, zapytania przygotowane, komunikaty i przekierowania po operacjach zapisu.
+
+============================================================
+
+UWAGA:
+Pracujemy wyłącznie na lokalnej bazie ćwiczeniowej. htmlspecialchars() chroni kontekst tekstowy HTML i wartości atrybutów przy odpowiednim użyciu; nie zastępuje walidacji ani zapytań przygotowanych. W rzeczywistej aplikacji operacje zmieniające dane wymagają dodatkowo ochrony CSRF, uwierzytelniania i kontroli uprawnień. Nie publikuj tego programu jako gotowej aplikacji internetowej.
