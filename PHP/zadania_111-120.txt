@@ -1,0 +1,205 @@
+ZADANIA 111–120 – PHP + MySQL
+Kontynuacja zadań 1–110. Pracuj w pliku index.php, z bazą szkola i tabelą uczniowie (id, imie, nazwisko, wiek).
+W poprzednim zestawie przygotowaliśmy bezpieczną listę uczniów z dodawaniem i usuwaniem. Teraz rozbudujemy program o edycję danych i wyszukiwanie.
+Połączenie z lokalną bazą ćwiczeniową:
+$polaczenie = mysqli_connect("localhost", "root", "", "szkola");
+Zadania wykonuj kolejno. Nie twórz nowej bazy ani tabeli.
+
+============================================================
+
+ZADANIE 111 – PRZYCISK EDYTUJ PRZY UCZNIU
+
+1. Wykorzystaj listę uczniów z zadania 110.
+2. Przy każdym uczniu dodaj link Edytuj.
+3. Link powinien prowadzić do index.php?edytuj=NUMER, gdzie NUMER to id ucznia.
+4. Id pobierz z bieżącego rekordu i zamień na liczbę całkowitą.
+5. Po otwarciu strony sprawdź, czy istnieje parametr $_GET["edytuj"].
+6. Sprawdź, czy parametr jest dodatnią liczbą całkowitą.
+7. Jeśli tak, wyświetl komunikat: Wybrano ucznia do edycji: ...
+8. Na tym etapie nie zmieniaj jeszcze danych w bazie.
+
+CO ĆWICZYMY?
+Przekazujemy identyfikator rekordu w adresie strony. Samo otwarcie linku GET nie zmienia danych.
+
+============================================================
+
+ZADANIE 112 – POBRANIE UCZNIA DO EDYCJI
+
+1. Wykorzystaj link Edytuj z zadania 111.
+2. Po otrzymaniu poprawnego id przygotuj zapytanie:
+   SELECT * FROM uczniowie WHERE id=?
+3. Użyj mysqli_prepare() i powiąż id jako parametr "i".
+4. Wykonaj zapytanie i pobierz jeden rekord przez mysqli_stmt_get_result() oraz mysqli_fetch_assoc().
+5. Jeśli uczeń istnieje, wyświetl jego imię, nazwisko i wiek.
+6. Dane tekstowe wyświetl przez htmlspecialchars().
+7. Jeśli nie ma takiego rekordu, wyświetl: Nie znaleziono ucznia.
+8. Zamknij zapytanie po zakończeniu pracy.
+
+NOWY ELEMENT:
+Przed edycją pobieramy aktualne wartości wybranego rekordu. Parametr id wskazuje konkretny wiersz tabeli.
+
+============================================================
+
+ZADANIE 113 – FORMULARZ Z AKTUALNYMI DANYMI UCZNIA
+
+1. Wykorzystaj program z zadania 112.
+2. Zamiast samego tekstu wyświetl formularz POST z polami imie, nazwisko i wiek.
+3. W atrybutach value wpisz aktualne wartości pobrane z bazy.
+4. Dla imienia i nazwiska użyj htmlspecialchars(..., ENT_QUOTES, "UTF-8").
+5. Dodaj ukryte pole id z numerem edytowanego ucznia.
+6. Dodaj przycisk Zapisz zmiany z name="akcja" i value="zapisz".
+7. Otwórz formularz dla dwóch różnych uczniów i sprawdź, czy pokazuje ich dane.
+8. Na tym etapie kliknięcie przycisku nie musi jeszcze wykonywać UPDATE.
+
+CO ĆWICZYMY?
+Wypełniamy formularz danymi istniejącego rekordu. Ukryte pole przekazuje id, ale serwer musi je później sprawdzić.
+
+============================================================
+
+ZADANIE 114 – SPRAWDZENIE DANYCH PRZED EDYCJĄ
+
+1. Wykorzystaj formularz z zadania 113.
+2. Po wysłaniu POST rozpoznaj akcję zapisz.
+3. Pobierz id, imię, nazwisko i wiek z $_POST.
+4. Sprawdź, czy id jest dodatnią liczbą całkowitą.
+5. Usuń zbędne spacje z imienia i nazwiska przez trim().
+6. Sprawdź, czy imię i nazwisko nie są puste oraz mają maksymalnie 50 znaków.
+7. Sprawdź przez FILTER_VALIDATE_INT, czy wiek jest liczbą całkowitą od 14 do 100.
+8. W przypadku błędu wyświetl odpowiedni komunikat i zachowaj wpisane wartości formularza.
+9. Jeśli wszystkie dane są poprawne, wyświetl: Dane gotowe do aktualizacji.
+10. Nie wykonuj jeszcze UPDATE.
+
+PRZYPOMNIENIE:
+Wykorzystujemy zasady walidacji poznane w zadaniach 91–100. Wartości formularza wyświetlamy bezpiecznie przez htmlspecialchars().
+
+============================================================
+
+ZADANIE 115 – ZAPIS ZMIAN PRZEZ UPDATE
+
+1. Wykorzystaj poprawną walidację z zadania 114.
+2. Tylko dla poprawnych danych przygotuj zapytanie:
+   UPDATE uczniowie SET imie=?, nazwisko=?, wiek=? WHERE id=?
+3. Użyj mysqli_prepare().
+4. Powiąż parametry w kolejności "ssii": imię, nazwisko, wiek, id.
+5. Wykonaj zapytanie przez mysqli_stmt_execute().
+6. Sprawdź liczbę zmienionych rekordów przez mysqli_stmt_affected_rows().
+7. Jeśli liczba jest większa od 0, wyświetl: Zmieniono dane ucznia.
+8. Jeśli liczba wynosi 0, wyświetl: Nie zmieniono danych. Może to oznaczać wpisanie takich samych wartości lub brak rekordu.
+9. Sprawdź wynik w phpMyAdmin.
+10. Zamknij zapytanie i połączenie po zakończeniu pracy.
+
+NOWY ELEMENT:
+Zapytanie UPDATE może zmieniać kilka kolumn jednocześnie. Warunek WHERE id=? ogranicza zmianę do wybranego ucznia.
+
+============================================================
+
+ZADANIE 116 – PRZEKIEROWANIE PO EDYCJI
+
+1. Wykorzystaj program z zadania 115.
+2. Po poprawnym wykonaniu UPDATE sprawdź, czy zmieniono co najmniej jeden rekord.
+3. Jeśli tak, zamiast echo wykonaj:
+   header("Location: index.php?status=zmieniono");
+   exit;
+4. Jeśli zapytanie się wykonało, ale nie zmieniło rekordu, przekieruj na index.php?status=bez_zmian.
+5. Umieść obsługę POST i przekierowania przed wysłaniem HTML.
+6. Dla status=zmieniono wyświetl: Zmieniono dane ucznia.
+7. Dla status=bez_zmian wyświetl: Nie wprowadzono zmian.
+8. Zmień dane ucznia, a następnie odśwież stronę.
+9. Sprawdź, czy odświeżenie nie wykonuje ponownie UPDATE.
+
+CO ĆWICZYMY?
+Stosujemy poznany schemat POST → przekierowanie → GET także podczas aktualizacji danych.
+
+============================================================
+
+ZADANIE 117 – FORMULARZ WYSZUKIWANIA UCZNIÓW
+
+1. Na stronie z listą uczniów dodaj osobny formularz GET.
+2. Utwórz pole tekstowe o nazwie szukaj i przycisk Szukaj.
+3. Po wysłaniu formularza pobierz $_GET["szukaj"], jeśli parametr istnieje.
+4. Usuń zbędne spacje przez trim().
+5. Jeśli wpisano pusty tekst, wyświetl pełną listę uczniów.
+6. Jeśli wpisano tekst, przygotuj wzorzec:
+   $wzorzec = "%" . $szukaj . "%";
+7. Przygotuj zapytanie:
+   SELECT * FROM uczniowie WHERE nazwisko LIKE ? ORDER BY nazwisko ASC
+8. Powiąż wzorzec jako "s" i wykonaj zapytanie.
+9. Wyświetl znalezione rekordy albo komunikat: Brak wyników.
+10. Zachowaj wyszukiwany tekst w polu formularza przez htmlspecialchars().
+
+CO ĆWICZYMY?
+Formularz GET służy do wyszukiwania, ponieważ nie zmienia danych. Zapytanie przygotowane bezpiecznie przekazuje wzorzec LIKE.
+
+============================================================
+
+ZADANIE 118 – WYSZUKIWANIE PO IMIENIU LUB NAZWISKU
+
+1. Wykorzystaj formularz wyszukiwania z zadania 117.
+2. Zmień zapytanie na:
+   SELECT * FROM uczniowie WHERE imie LIKE ? OR nazwisko LIKE ? ORDER BY nazwisko ASC
+3. Przygotuj jeden wzorzec z tekstu wpisanego przez użytkownika.
+4. Powiąż ten sam wzorzec z obydwoma znakami ? przez "ss".
+5. Wykonaj zapytanie i wyświetl znalezionych uczniów.
+6. Przetestuj fragment imienia, fragment nazwiska i tekst bez wyników.
+7. Sprawdź, czy pojedynczy uczeń nie pojawia się dwukrotnie, gdy pasuje zarówno imię, jak i nazwisko.
+
+NOWY ELEMENT:
+OR pozwala znaleźć rekord, gdy pasuje co najmniej jeden z warunków. Jedno zapytanie SELECT zwraca każdy pasujący rekord tylko raz.
+
+============================================================
+
+ZADANIE 119 – LICZBA WYNIKÓW WYSZUKIWANIA
+
+1. Wykorzystaj wyszukiwanie z zadania 118.
+2. Po wykonaniu SELECT pobierz liczbę wyników przez mysqli_num_rows().
+3. Nad listą wyświetl: Znaleziono uczniów: ...
+4. Jeżeli liczba wynosi 0, wyświetl: Brak wyników.
+5. Jeżeli pole wyszukiwania jest puste, pokaż wszystkich uczniów i komunikat: Wszystkich uczniów: ...
+6. Zadbaj, aby liczba odpowiadała faktycznie wyświetlonym rekordom.
+7. Przetestuj wyszukiwanie dające 0, 1 i kilka wyników.
+
+CO ĆWICZYMY?
+Łączymy filtrowanie z liczeniem otrzymanych rekordów. Liczba wyników dotyczy aktualnie wykonanego zapytania.
+
+============================================================
+
+ZADANIE 120 – PODSUMOWANIE: LISTA UCZNIÓW Z EDYCJĄ I WYSZUKIWANIEM
+
+Przygotuj jeden program w index.php, który rozwija aplikację z zadania 110 o edycję i wyszukiwanie.
+
+1. Połącz się z bazą szkola i obsłuż błąd połączenia.
+2. Zachowaj formularz dodawania ucznia z walidacją i zapytaniem przygotowanym INSERT.
+3. Zachowaj listę uczniów posortowaną według nazwiska.
+4. Przy każdym uczniu umieść przyciski Edytuj i Usuń.
+5. Usuwanie wykonuj formularzem POST, z potwierdzeniem confirm() i przygotowanym DELETE.
+6. Po kliknięciu Edytuj pobierz wybranego ucznia przez przygotowany SELECT WHERE id=?.
+7. Wyświetl formularz edycji z aktualnym imieniem, nazwiskiem i wiekiem oraz ukrytym id.
+8. Sprawdź dane formularza edycji: niepuste imię i nazwisko do 50 znaków, wiek całkowity 14–100 i poprawne id.
+9. Poprawne dane aktualizuj zapytaniem przygotowanym UPDATE z parametrami "ssii".
+10. Po dodaniu, usunięciu lub zmianie danych zastosuj przekierowanie POST → GET.
+11. Dodaj formularz GET do wyszukiwania po fragmencie imienia lub nazwiska.
+12. Wyszukiwanie wykonuj przygotowanym SELECT z dwoma warunkami LIKE połączonymi OR.
+13. Wyświetl liczbę znalezionych uczniów lub komunikat Brak wyników.
+14. Zachowaj tekst wyszukiwania w formularzu.
+15. Wszystkie imiona, nazwiska i wartości pól tekstowych wyświetlaj przez htmlspecialchars().
+16. Id i wiek wyświetlaj jako liczby całkowite.
+17. Zamykaj wykorzystane zapytania i połączenie po zakończeniu pracy.
+18. Przetestuj: dodawanie, edycję, zapis bez zmian, anulowanie usunięcia, poprawne usunięcie, wyszukiwanie po imieniu i nazwisku oraz brak wyników.
+19. Sprawdź w phpMyAdmin, czy zawartość tabeli odpowiada wykonanym operacjom.
+
+SCHEMAT DZIAŁANIA:
+LISTA UCZNIÓW → EDYTUJ (GET) → SELECT PO ID → FORMULARZ
+                                              ↓
+                                   WALIDACJA DANYCH (POST)
+                                              ↓
+                                       UPDATE → PRG
+
+WYSZUKIWARKA (GET) → LIKE ? OR LIKE ? → LISTA + LICZBA WYNIKÓW
+
+CO ĆWICZYMY?
+Łączymy dodawanie, edycję, usuwanie, wyszukiwanie, walidację, zapytania przygotowane i przekierowania w jednej aplikacji.
+
+============================================================
+
+UWAGA:
+Pracujemy wyłącznie na lokalnej bazie ćwiczeniowej. W rzeczywistej aplikacji operacje zmieniające dane wymagają uwierzytelniania, kontroli uprawnień i ochrony CSRF. Nie publikuj szkolnego programu jako gotowej aplikacji internetowej.
